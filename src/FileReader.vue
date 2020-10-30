@@ -1,0 +1,21 @@
+<template>
+  <label class="text-reader">
+    <input type="file" @change="loadTextFromFile" />
+  </label>
+</template>
+
+<script>
+export default {
+  methods: {
+    loadTextFromFile(ev) {
+      const file = ev.target.files[0];
+      const reader = new FileReader();
+
+      console.log('file:', file)
+      this.$emit("file", file);
+      reader.onload = (e) => this.$emit("load", e.target.result);
+      reader.readAsText(file);
+    },
+  },
+};
+</script>
