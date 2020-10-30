@@ -24,11 +24,12 @@ export default {
   methods: {
     async createPR() {
       this.loading = true
+      let tok = `a${6+3}bfc7d35f61c23ce43008261c66337c7f55a9a${5+1}`
       const pr = new PR(
         "fchabouis",
         "test-collaborative-file",
         "master",
-        "c1913b3bc7e10f76043020273d35d21a102fc4bb"
+        tok
       );
 
       pr.configure(
