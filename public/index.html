@@ -12,6 +12,29 @@
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <p>
+        <label>Your Name: <input type="text" name="name" /></label>
+      </p>
+      <p>
+        <label>Your Email: <input type="email" name="email" /></label>
+      </p>
+      <p>
+        <label>Your Role:
+          <select name="role[]" multiple>
+            <option value="leader">Leader</option>
+            <option value="follower">Follower</option>
+          </select></label>
+      </p>
+      <p>
+        <label>Message: 
+          <textarea name="message"></textarea>
+        </label>
+      </p>
+      <p>
+        <button type="submit">Send</button>
+      </p>
+    </form>
     <!-- built files will be auto injected -->
   </body>
 </html>
