@@ -1,66 +1,129 @@
 <template>
   <div id="app">
-    <div>
-      1. Télécharger la
-      <a
-        href="https://raw.githubusercontent.com/fchabouis/test-collaborative-file/master/bnlc-.csv"
-        >base actuelle</a
-      >
-    </div>
-    <div>2. Apporter des modifications sur votre poste</div>
-    <div>
-      3. Uploader le fichier modifié
-      <file-reader
-        @load="handleNewFile($event)"
-        @file="newFileObject = $event"
-      ></file-reader>
-      <br />
-    </div>
-    <div v-if="newFile" class="pt-24">
-      <div>Différences détectées :</div>
-      <div class="pt-24">
-        <span
-          v-for="(d, i) in diff"
-          v-bind:key="`diff-${i}`"
-          v-bind:class="getClass(d[0])"
-        >
-          <span v-if="/\n/.exec(d[1])">
-            <br />
-          </span>
-          <span v-if="d[0] === 2">
-            <br />
-            <br />
-          </span>
-
-          <span v-if="d[1] !== '\r'">
-            {{ d[1] }}
-          </span>
-        </span>
+    <div class="container">
+      <header class="navbar">
+        <div class="navbar__container">
+          <a href="transport.data.gouv.fr" class="navbar__home"
+            ><img
+              src="/logo-header.svg"
+              alt="transport.data.gouv.fr"
+              class="navbar__logo"
+          /></a>
+        </div>
+      </header>
+      <h1>
+        Proposer un ajout ou une modification à la base nationale de covoiturage
+      </h1>
+      <div>
+        La base nationale des lieux de covoiturage est stockée à
+        <a
+          href="https://github.com/betagouv/transport-base-nationale-covoiturage"
+          >cette adresse</a
+        >. <br />
+        Toute personne peut proposer d'y apporter des modifications simplement
+        en suivant les étapes suivantes :
       </div>
-    </div>
-    <div v-if="newFile" class="pt-24">
-      <span v-if="validFile === true">
-        <span style="color: green;">✓</span> Le fichier est valide selon <a href="https://schema.data.gouv.fr/etalab/schema-lieux-covoiturage/latest.html">schema.data.gouv.fr</a>
 
-      </span>
-      <span v-else-if="validFile === false">
-        <span style="color: red;">❌</span> Le fichier n'est pas valide selon <a href="https://schema.data.gouv.fr/etalab/schema-lieux-covoiturage/latest.html">schema.data.gouv.fr</a>
-      </span>
-      <span v-else>
-        Validation du fichier par schema.data.gouv.f <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
-      </span>
+      <div>
+        <form name="contact" netlify>
+          <p>
+            <label>Name <input type="text" name="name" /></label>
+          </p>
+          <p>
+            <label>Email <input type="email" name="email" /></label>
+          </p>
+          <p>
+            <button type="submit">Send</button>
+          </p>
+        </form>
+      </div>
+
+      <ol>
+        <div class="pt-24">
+          <li>
+            Téléchargez la
+            <a :href="downloadUrl" download="bnlc-.csv">base actuelle</a>
+          </li>
+        </div>
+        <li>Apportez y les modifications souhaitées sur votre poste</li>
+        <li>
+          Chargez le fichier modifié :
+          <file-reader
+            @load="handleNewFile($event)"
+            @file="newFileObject = $event"
+          ></file-reader>
+          <br />
+        </li>
+        <div v-if="newFile" class="pt-24">
+          <div v-if="diff.length">
+            Voici les modifications que vous souhaitez apporter à la base.<br />
+            Les ajouts apparaissent en <span class="diff-add">vert</span>, les
+            suppressions en <span class="diff-delete">rouge</span>.
+          </div>
+          <div v-else>
+            Aucune modification de contenu n'a été détectée avec la base
+            actuelle.
+          </div>
+          <div class="mt-24 panel overflow-auto">
+            <span
+              v-for="(d, i) in diff"
+              v-bind:key="`diff-${i}`"
+              v-bind:class="getClass(d[0])"
+            >
+              <span v-if="/\n/.exec(d[1])">
+                <br />
+              </span>
+              <span v-if="d[0] === 2">
+                <br />
+                <br />
+              </span>
+
+              <span v-if="d[0] !== 2 && d[1] !== '\r'">
+                {{ d[1] }}
+              </span>
+            </span>
+          </div>
+        </div>
+        <div v-if="newFile" class="pt-24">
+          <span v-if="validFile === true">
+            <span style="color: green">✓</span> Le fichier est valide selon
+            <a
+              href="https://schema.data.gouv.fr/etalab/schema-lieux-covoiturage/latest.html"
+              >schema.data.gouv.fr</a
+            >
+          </span>
+          <span v-else-if="validFile === false">
+            <span style="color: red">❌</span> Le fichier n'est pas valide selon
+            schema.data.gouv.fr. Pour en savoir plus sur les erreurs de la
+            validation détectées, rendez-vous sur
+            <a
+              href="https://validata.etalab.studio/table-schema?schema_url=https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/0.1.2/schema.json"
+              >cette page</a
+            >
+            et validez vos données. Vous aurez accès à un rapport d'erreur.
+          </span>
+          <span v-else>
+            Validation du fichier par schema.data.gouv.fr
+            <div class="lds-ring">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </span>
+        </div>
+        <li v-if="newFile && validFile && diff.length" class="pt-24">
+          Soumettre la demande de modification
+          <p-r :file-content="newFile" @prUrl="prUrl = $event" />
+        </li>
+        <li v-if="prUrl">Voir la <a :href="prUrl">demande</a></li>
+      </ol>
     </div>
-    <div v-if="newFile && validFile" class="pt-24">
-      4. Soumettre la demande de modification
-      <p-r :file-content="newFile" @prUrl="prUrl = $event" />
-    </div>
-    <div v-if="prUrl">5. Voir la <a :href="prUrl">demande</a></div>
   </div>
 </template>
 
 <script>
 import DiffMatchPatch from "diff-match-patch";
-// import { diffChars } from "diff";
 import PR from "./components/PR.vue";
 import FileReader from "./FileReader";
 
@@ -139,13 +202,14 @@ export default {
   },
   data() {
     return {
+      downloadUrl: "",
       diff: "",
       diff2: "",
       file: "",
       newFile: "",
       newFileObject: "",
       prUrl: "",
-      validFile: undefined
+      validFile: undefined,
     };
   },
   methods: {
@@ -176,16 +240,17 @@ export default {
       console.log("formData:", formData.getAll("schema"));
 
       fetch("https://go.validata.fr/api/v1/validate", {
-        "method": "POST",
-        "headers": {
-          "Accept": "application/json",
+        method: "POST",
+        headers: {
+          Accept: "application/json",
         },
-        "body": formData,
-      }).then((data) => data.json())
-      .then(res => {
-          console.log('res:', res)
-          this.validFile = res.report.valid
+        body: formData,
       })
+        .then((data) => data.json())
+        .then((res) => {
+          console.log("res:", res);
+          this.validFile = res.report.valid;
+        });
     },
     keepOnlyDiffContext(diff) {
       let diffIndex = diff.reduce((acc, d, i) => {
@@ -225,19 +290,33 @@ export default {
   },
   mounted() {
     fetch(
-      "https://raw.githubusercontent.com/fchabouis/test-collaborative-file/master/bnlc-.csv"
+      "https://raw.githubusercontent.com/betagouv/transport-base-nationale-covoiturage/main/bnlc-.csv"
     )
       .then((response) => {
         return response.text();
       })
       .then((data) => {
         this.file = data;
+        let blob = new Blob([data], { type: "text/csv" });
+        this.downloadUrl = window.URL.createObjectURL(blob);
       });
   },
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "~template.data.gouv.fr/dist/main.css";
+
+#app {
+  background-color: var(--theme-background-grey);
+  min-height: 100vh;
+  .container {
+    background-color: white;
+    min-height: 100vh;
+    padding: 48px;
+  }
+}
+
 .diff-delete {
   background-color: pink;
   text-decoration: line-through;
@@ -248,5 +327,12 @@ export default {
 
 .pt-24 {
   padding-top: 24px;
+}
+.mt-24 {
+  margin-top: 24px;
+}
+
+.overflow-auto {
+  overflow: auto;
 }
 </style>

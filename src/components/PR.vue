@@ -1,8 +1,15 @@
 <template>
-  <div>
-    <br>
-    <textarea v-model="description" name="" id="" cols="30" rows="5" placeholder="description des changements"></textarea><br>
-    <button @click="createPR()">Submit changes</button>
+  <div class="pt-24">
+    <div class="form__group limited-width">
+      <input type="email" placeholder="Adresse email de contact">
+    </div>
+    <div class="form__group limited-width">
+      <input type="text" placeholder="Nom">
+    </div>
+    <div class="form__group">
+      <textarea v-model="description" name="" id="" cols="30" rows="5" placeholder="Description des changements"></textarea>
+    </div>
+    <button class="button primary" @click="createPR()">Envoyer la demande de modification</button>
     <div>
       <div v-if="loading" class="lds-ring"><div></div><div></div><div></div><div></div></div>
     </div>
@@ -26,15 +33,15 @@ export default {
       this.loading = true
       let tok = `a${6+3}bfc7d35f61c23ce43008261c66337c7f55a9a${5+1}`
       const pr = new PR(
-        "fchabouis",
-        "test-collaborative-file",
-        "master",
+        "betagouv",
+        "transport-base-nationale-covoiturage",
+        "main",
         tok
       );
 
       pr.configure(
         [{ path: "bnlc-.csv", content: this.fileContent }],
-        "commit : modif base",
+        "Modification de la base",
         "Modification de la base",
         this.description,
         {
@@ -51,7 +58,7 @@ export default {
 </script>
 
 
-<style>
+<style lang="scss" scoped>
 .lds-ring {
   display: inline-block;
   position: relative;
@@ -86,6 +93,10 @@ export default {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.limited-width {
+  max-width: 300px;
 }
 
 </style>
