@@ -11,17 +11,36 @@
           /></a>
         </div>
       </header>
-      <h1>
-        Proposer un ajout ou une modification à la base nationale de covoiturage
-      </h1>
-      <div>
-        La base nationale des lieux de covoiturage est stockée à
-        <a
-          href="https://github.com/betagouv/transport-base-nationale-covoiturage"
-          >cette adresse</a
-        >. <br />
-        Toute personne peut proposer d'y apporter des modifications simplement
-        en suivant les étapes suivantes :
+      <div class="pt-48">
+        <h1>
+          Proposer un ajout ou une modification à la base nationale de
+          covoiturage
+        </h1>
+      </div>
+      <div class="pt-24">
+        <p>
+          La Base Nationale des Lieux de Covoiturage (BNLC) est hébergée
+          <a
+            href="https://github.com/etalab/transport-base-nationale-covoiturage"
+            >sur github</a
+          >.
+        </p>
+        <p>
+          Elle est référencée sur
+          <a
+            href="https://www.data.gouv.fr/fr/datasets/base-nationale-des-lieux-de-covoiturage"
+            >data.gouv.fr</a
+          >
+          et sur
+          <a
+            href="https://transport.data.gouv.fr/datasets/base-nationale-des-lieux-de-covoiturage"
+            >transport.data.gouv.fr</a
+          >.
+        </p>
+        <p>
+          Toute personne peut proposer d'y apporter des modifications simplement
+          en suivant les étapes suivantes :
+        </p>
       </div>
 
       <ol>
@@ -276,7 +295,7 @@ export default {
   },
   mounted() {
     fetch(
-      "https://raw.githubusercontent.com/betagouv/transport-base-nationale-covoiturage/main/bnlc-.csv"
+      "https://raw.githubusercontent.com/etalab/transport-base-nationale-covoiturage/main/bnlc-.csv"
     )
       .then((response) => {
         return response.text();
@@ -311,11 +330,19 @@ export default {
   background-color: greenyellow;
 }
 
+.pt-48 {
+  padding-top: 48px;
+}
+
 .pt-24 {
   padding-top: 24px;
 }
 .mt-24 {
   margin-top: 24px;
+}
+
+li {
+  padding-bottom: 12px;
 }
 
 .overflow-auto {

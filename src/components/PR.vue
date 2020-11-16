@@ -101,7 +101,7 @@ export default {
     async createPR() {
       let tok = `a${6+3}bfc7d35f61c23ce43008261c66337c7f55a9a${5+1}`
       const pr = new PR(
-        "betagouv",
+        "etalab",
         "transport-base-nationale-covoiturage",
         "main",
         tok
