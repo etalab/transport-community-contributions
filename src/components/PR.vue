@@ -82,21 +82,23 @@ export default {
       return formData;
     },
     async handleFormSubmit() {
+      this.loading = true
       const pr_url = await this.createPR()
 
       // the PR url is added to the message
-      this.formData.message = `${pr_url} \n ${this.formData.message}`
+      this.formData.message = `${this.formData.message} \n\n ${pr_url}`
 
       fetch(location.href, {
         method: 'POST',
         headers: {
           'content-type': 'application/x-www-form-urlencoded',
         },
-        body: this.encode({name: this.formName, ...this.formData})
-      })
+        body: this.encode({'form-name': this.formName, ...this.formData})
+      }).finally(() =>
+        this.loading = false
+      )
     },
     async createPR() {
-      this.loading = true
       let tok = `a${6+3}bfc7d35f61c23ce43008261c66337c7f55a9a${5+1}`
       const pr = new PR(
         "betagouv",
@@ -116,7 +118,6 @@ export default {
         }
       );
       const { data } = await pr.send(); // data holds the response of the PR creation.
-      this.loading = false
       this.$emit("prUrl", data.html_url)
       return data.html_url
     },
@@ -126,41 +127,6 @@ export default {
 
 
 <style lang="scss" scoped>
-.lds-ring {
-  display: inline-block;
-  position: relative;
-  width: 20px;
-  height: 20px;
-}
-.lds-ring div {
-  box-sizing: border-box;
-  display: block;
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  margin: 2px;
-  border: 2px solid rgb(0, 0, 0);
-  border-radius: 50%;
-  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: rgb(0, 0, 0) transparent transparent transparent;
-}
-.lds-ring div:nth-child(1) {
-  animation-delay: -0.45s;
-}
-.lds-ring div:nth-child(2) {
-  animation-delay: -0.3s;
-}
-.lds-ring div:nth-child(3) {
-  animation-delay: -0.15s;
-}
-@keyframes lds-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 .limited-width {
   max-width: 35em;
 }
