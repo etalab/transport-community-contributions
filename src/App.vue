@@ -230,7 +230,7 @@ export default {
     handleNewFile(newFileContent) {
       this.newFile = newFileContent;
       this.diff = diff_lineMode(this.file, this.newFile);
-      console.log("this.diff:", this.diff);
+      // console.log("this.diff:", this.diff);
       this.diff = this.keepOnlyDiffContext(this.diff, 0);
       this.getFileValidation();
     },
@@ -242,7 +242,7 @@ export default {
       );
       // formData.append("repair", "true");
       formData.append("file", this.newFileObject);
-      console.log("formData:", formData.getAll("schema"));
+      // console.log("formData:", formData.getAll("schema"));
 
       fetch("https://go.validata.fr/api/v1/validate", {
         method: "POST",
@@ -265,7 +265,7 @@ export default {
         return acc;
       }, []);
 
-      console.log("diffIndex:", diffIndex);
+      // console.log("diffIndex:", diffIndex);
       let filteredDiffs = [];
       for (let i of diffIndex) {
         if (i > 0 && this.diff[i - 1][0] === 0) {
@@ -283,13 +283,8 @@ export default {
           filteredDiffs.push([2, "stop"]);
         }
       }
-      console.log("filteredDiffs:", filteredDiffs);
-
-      // let contexts = diffIndex.map((i) => getContext(diff, i, contextSize));
-      // let filteredDiffs = filterDiffs(diff, contexts);
-      // console.log(diffIndex);
-      // console.log(contexts);
       // console.log("filteredDiffs:", filteredDiffs);
+
       return filteredDiffs;
     },
   },
