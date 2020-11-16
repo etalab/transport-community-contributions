@@ -79,7 +79,7 @@ export default {
       for (const key of Object.keys(data)) {
           formData.append(key, data[key]);
       }
-      return formData;
+      return formData.toString();
     },
     async handleFormSubmit() {
       this.loading = true
