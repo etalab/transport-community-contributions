@@ -81,19 +81,19 @@ export default {
       }
       return formData;
     },
-    handleFormSubmit() {
-      const pr_url = this.createPR()
+    async handleFormSubmit() {
+      const pr_url = await this.createPR()
 
       // the PR url is added to the message
       this.formData.message = `${pr_url} \n ${this.formData.message}`
 
       fetch(location.href, {
-        method: "POST",
-        headers: "content-type: application/x-www-form-urlencoded",
+        method: 'POST',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
         body: this.encode({name: this.formName, ...this.formData})
       })
-
-      
     },
     async createPR() {
       this.loading = true
