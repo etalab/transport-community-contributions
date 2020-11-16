@@ -91,7 +91,7 @@ export default {
       fetch(location.href, {
         method: 'POST',
         headers: {
-          'content-type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: this.encode({'form-name': this.formName, ...this.formData})
       }).finally(() =>
