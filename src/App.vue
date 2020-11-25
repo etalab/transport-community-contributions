@@ -107,7 +107,7 @@
             schema.data.gouv.fr. Pour en savoir plus sur les erreurs de la
             validation détectées, rendez-vous sur
             <a
-              href="https://validata.etalab.studio/table-schema?schema_url=https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/0.1.2/schema.json"
+              href="https://validata.etalab.studio/table-schema?schema_url=https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/0.2.0/schema.json"
               >cette page</a
             >
             et validez vos données. Vous aurez accès à un rapport d'erreur.
@@ -181,7 +181,7 @@ export default {
       let formData = new FormData();
       formData.append(
         "schema",
-        "https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/0.1.2/schema.json"
+        "https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/0.2.0/schema.json"
       );
       formData.append("file", this.newFileObject);
 
