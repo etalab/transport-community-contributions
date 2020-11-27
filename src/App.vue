@@ -37,97 +37,113 @@
             >transport.data.gouv.fr</a
           >.
         </p>
+      </div>
+
+      <div v-if="fileAvailable === undefined">
+        <div class="lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        Chargement...
+      </div>
+      <div v-else-if="!fileAvailable">
+        <span class="error"
+          >⚠️ Le service de contribution est temporairement indisponible.</span
+        >
+      </div>
+      <div v-else>
         <p>
           Toute personne peut proposer d'y apporter des modifications simplement
           en suivant les étapes suivantes :
         </p>
-      </div>
-
-      <ol>
-        <div class="pt-24">
+        <ol>
+          <div class="pt-24">
+            <li>
+              Téléchargez la
+              <a :href="downloadUrl" download="bnlc-.csv">base actuelle</a>
+            </li>
+          </div>
           <li>
-            Téléchargez la
-            <a :href="downloadUrl" download="bnlc-.csv">base actuelle</a>
+            Apportez y les modifications souhaitées sur votre poste,
+            <a
+              href="https://schema.data.gouv.fr/etalab/schema-lieux-covoiturage/latest/documentation.html"
+              target="_blank"
+              >en suivant le schéma imposé</a
+            >.
           </li>
-        </div>
-        <li>
-          Apportez y les modifications souhaitées sur votre poste,
-          <a
-            href="https://schema.data.gouv.fr/etalab/schema-lieux-covoiturage/latest/documentation.html"
-            target="_blank"
-            >en suivant le schéma imposé</a
-          >.
-        </li>
-        <li>
-          Chargez le fichier modifié :
-          <file-reader
-            :newline="newline"
-            @load="handleNewFile($event)"
-            @file="newFileObject = $event"
-          ></file-reader>
-          <br />
-        </li>
-        <div v-if="newFile" class="pt-24">
-          <div v-if="diff.length">
-            Voici les modifications que vous souhaitez apporter à la base.<br />
-            Les ajouts apparaissent en <span class="diff-add">vert</span>, les
-            suppressions en <span class="diff-delete">rouge</span>.
-          </div>
-          <div v-else>
-            Aucune modification de contenu n'a été détectée avec la base
-            actuelle.
-          </div>
-          <div class="mt-24 panel overflow-auto">
-            <span
-              v-for="(d, i) in diff"
-              v-bind:key="`diff-${i}`"
-              v-bind:class="getClass(d[0])"
-              style="white-space: pre-line"
-            >
-              <span v-if="d[0] === 2">
-                <br />
-                <br />
+          <li>
+            Chargez le fichier modifié :
+            <file-reader
+              :newline="newline"
+              @load="handleNewFile($event)"
+              @file="newFileObject = $event"
+            ></file-reader>
+            <br />
+          </li>
+          <div v-if="newFile" class="pt-24">
+            <div v-if="diff.length">
+              Voici les modifications que vous souhaitez apporter à la base.<br />
+              Les ajouts apparaissent en <span class="diff-add">vert</span>, les
+              suppressions en <span class="diff-delete">rouge</span>.
+            </div>
+            <div v-else>
+              Aucune modification de contenu n'a été détectée avec la base
+              actuelle.
+            </div>
+            <div class="mt-24 panel overflow-auto">
+              <span
+                v-for="(d, i) in diff"
+                v-bind:key="`diff-${i}`"
+                v-bind:class="getClass(d[0])"
+                style="white-space: pre-line"
+              >
+                <span v-if="d[0] === 2">
+                  <br />
+                  <br />
+                </span>
+                <span v-else>
+                  {{ d[1] }}
+                </span>
               </span>
-              <span v-else>
-                {{ d[1] }}
-              </span>
+            </div>
+          </div>
+          <div v-if="newFile" class="pt-24">
+            <span v-if="validFile === true">
+              <span style="color: green">✓</span> Le fichier est valide selon
+              <a
+                href="https://schema.data.gouv.fr/etalab/schema-lieux-covoiturage/latest.html"
+                >schema.data.gouv.fr</a
+              >
+            </span>
+            <span v-else-if="validFile === false">
+              <span style="color: red">❌</span> Le fichier n'est pas valide
+              selon schema.data.gouv.fr. Pour en savoir plus sur les erreurs de
+              la validation détectées, rendez-vous sur
+              <a
+                href="https://validata.etalab.studio/table-schema?schema_url=https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/0.2.0/schema.json"
+                >cette page</a
+              >
+              et validez vos données. Vous aurez accès à un rapport d'erreur.
+            </span>
+            <span v-else>
+              Validation du fichier par schema.data.gouv.fr
+              <div class="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
             </span>
           </div>
-        </div>
-        <div v-if="newFile" class="pt-24">
-          <span v-if="validFile === true">
-            <span style="color: green">✓</span> Le fichier est valide selon
-            <a
-              href="https://schema.data.gouv.fr/etalab/schema-lieux-covoiturage/latest.html"
-              >schema.data.gouv.fr</a
-            >
-          </span>
-          <span v-else-if="validFile === false">
-            <span style="color: red">❌</span> Le fichier n'est pas valide selon
-            schema.data.gouv.fr. Pour en savoir plus sur les erreurs de la
-            validation détectées, rendez-vous sur
-            <a
-              href="https://validata.etalab.studio/table-schema?schema_url=https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/0.2.0/schema.json"
-              >cette page</a
-            >
-            et validez vos données. Vous aurez accès à un rapport d'erreur.
-          </span>
-          <span v-else>
-            Validation du fichier par schema.data.gouv.fr
-            <div class="lds-ring">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-          </span>
-        </div>
-        <li v-if="newFile && validFile && diff.length" class="pt-24">
-          Soumettre la demande de modification
-          <p-r :file-content="newFile" @prUrl="prUrl = $event" />
-        </li>
-        <li v-if="prUrl">Voir la <a :href="prUrl">demande</a></li>
-      </ol>
+          <li v-if="newFile && validFile && diff.length" class="pt-24">
+            Soumettre la demande de modification
+            <p-r :file-content="newFile" @prUrl="prUrl = $event" />
+          </li>
+          <li v-if="prUrl">Voir la <a :href="prUrl">demande</a></li>
+        </ol>
+      </div>
     </div>
   </div>
 </template>
@@ -154,6 +170,7 @@ export default {
       newFileObject: "",
       prUrl: "",
       validFile: undefined,
+      fileAvailable: undefined
     };
   },
   methods: {
@@ -236,13 +253,21 @@ export default {
     fetch(
       "https://raw.githubusercontent.com/etalab/transport-base-nationale-covoiturage/main/bnlc-.csv"
     )
-      .then((response) => {
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("file not fetched properly");
+        }
+        this.fileAvailable = true;
         return response.text();
       })
-      .then((data) => {
+      .then(data => {
         this.file = data;
         let blob = new Blob([data], { type: "text/csv" });
         this.downloadUrl = window.URL.createObjectURL(blob);
+      })
+      .catch(error => {
+        console.error("La base n'est pas disponible", error);
+        this.fileAvailable = false;
       });
   },
 };
@@ -259,6 +284,10 @@ export default {
     min-height: 100vh;
     padding: 48px;
   }
+}
+
+.error {
+  color: red;
 }
 
 .diff-delete {
