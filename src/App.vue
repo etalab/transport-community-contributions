@@ -78,7 +78,6 @@
             <file-reader
               :newline="newline"
               @load="handleNewFile($event)"
-              @file="newFileObject = $event"
             ></file-reader>
             <br />
           </li>
@@ -167,7 +166,6 @@ export default {
       diff2: "",
       file: "",
       newFile: "",
-      newFileObject: "",
       prUrl: "",
       validFile: undefined,
       fileAvailable: undefined
@@ -200,7 +198,8 @@ export default {
         "schema",
         "https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/0.2.0/schema.json"
       );
-      formData.append("file", this.newFileObject);
+      const file = new File([this.newFile], "newFile.csv", {type: 'text/csv;charset=utf-8;'})
+      formData.append("file", file);
 
       fetch("https://go.validata.fr/api/v1/validate", {
         method: "POST",

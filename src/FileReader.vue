@@ -22,10 +22,9 @@ export default {
       const reader = new FileReader();
 
       // console.log("file:", file);
-      this.$emit("file", file);
       reader.onload = (e) => {
         let p = papa.parse(e.target.result);
-        let content = papa.unparse(p, { quotes: true, newline: this.newline });
+        let content = papa.unparse(p, { quotes: true, newline: this.newline, skipEmptyLines: 'greedy' });
         this.$emit("load", content);
       };
       reader.readAsText(file);
