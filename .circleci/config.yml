@@ -12,8 +12,6 @@ jobs:
           name: Install Dependencies
           command: npm install && npm install wait-on && npm install -g @vue/cli-service
       - run:
-          name: Run local server
-          command: npm run serve & npx wait-on http://localhost:8080
-      - run:
-          name: Run cypress e2e tests
-          command: cypress run
+          name: Run tests
+          command: npm run test:e2e -- --headless
+
