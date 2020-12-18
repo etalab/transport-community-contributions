@@ -10,7 +10,7 @@ jobs:
       - checkout
       - run:
           name: Install Dependencies
-          command: npm install && npm install wait-on && npm install -g @vue/cli-service
+          command: npm install
       - run:
           name: Run tests
           command: npm run test:e2e -- --headless
