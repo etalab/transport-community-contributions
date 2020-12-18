@@ -16,4 +16,4 @@ jobs:
           command: npm run serve & wait-on http://localhost:8080
       - run:
           name: Run cypress e2e tests
-          command: cypress run
+          command: ./node_modules/cypress/bin/cypress run
