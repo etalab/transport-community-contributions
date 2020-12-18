@@ -1,5 +1,6 @@
 version: 2.1
 
+# reusable piece of config
 defaults: &defaults
   docker:
     - image: cypress/included:3.2.0
@@ -8,6 +9,7 @@ defaults: &defaults
         TERM: xterm
 
 jobs:
+  # build install the dependencies
   build:
     <<: *defaults
 
@@ -16,11 +18,20 @@ jobs:
       - run:
           name: Install Dependencies
           command: npm install
+
   e2e cypress tests:
-    build:
-      <<: *defaults
+    # e2e cypress tests run the tests
+    <<: *defaults
+
     steps:
       - run:
           name: Run tests
           command: npm run test:e2e -- --headless
 
+workflows:
+  build_and_test:
+    jobs:
+      - build
+      - e2e cypress tests:
+          requires:
+           - build # wait for build job to complete successfully before starting
