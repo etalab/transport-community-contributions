@@ -10,7 +10,7 @@ jobs:
       - checkout
       - run:
           name: Install Dependencies
-          command: npm install & npm install wait-on
+          command: npm install & npm install -g wait-on
       - run:
           name: Run local server
           command: npm run serve & wait-on http://localhost:8080
