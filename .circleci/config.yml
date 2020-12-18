@@ -1,9 +1,19 @@
 version: 2.1
-orbs:
-  cypress: cypress-io/cypress@1
-workflows:
+jobs:
   build:
-    jobs:
-      - cypress/run:
-          start: npm run serve
-          wait-on: 'http://localhost:8080'
+    docker:
+      - image: cypress/base:10
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - run:
+          name: Run local server
+          command: npm run serve & wait-on http://localhost:8080
+      - run:
+          name: Run cypress e2e tests
+          command: cypress run
