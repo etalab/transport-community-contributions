@@ -10,7 +10,7 @@ jobs:
       - checkout
       - run:
           name: Install Dependencies
-          command: npm install & npm install -g wait-on
+          command: npm install & npm install -g wait-on & npm install -g @vue/cli-service
       - run:
           name: Run local server
           command: npm run serve & wait-on http://localhost:8080
