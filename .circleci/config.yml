@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: cypress/base:10
+      - image: cypress/included:3.2.0
         environment:
           ## this enables colors in the output
           TERM: xterm
@@ -10,10 +10,10 @@ jobs:
       - checkout
       - run:
           name: Install Dependencies
-          command: npm install && npm install wait-on && npm install -g @vue/cli-service && npm install cypress --save-dev
+          command: npm install && npm install wait-on && npm install -g @vue/cli-service
       - run:
           name: Run local server
           command: npm run serve & npx wait-on http://localhost:8080
       - run:
           name: Run cypress e2e tests
-          command: ./node_modules/.bin/cypress install && ./node_modules/.bin/cypress run
+          command: cypress run
