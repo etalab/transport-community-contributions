@@ -14,3 +14,7 @@ jobs:
       - run:
           name: Run tests
           command: npm run test:e2e -- --headless
+workflows:
+  workflow:
+    jobs:
+      - build_and_test
