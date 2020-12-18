@@ -1,6 +1,6 @@
 <template>
   <label class="text-reader">
-    <input type="file" @change="loadTextFromFile" />
+    <input data-cy="file-input" type="file" @change="loadTextFromFile" />
   </label>
 </template>
 

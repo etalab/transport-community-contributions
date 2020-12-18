@@ -41,7 +41,7 @@
           ></textarea>
         </p>
         <p>
-          <button class="button" type="submit">
+          <button class="button" type="submit" data-cy="submit-button">
             Envoyer la demande de modification
           </button>
         </p>

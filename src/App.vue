@@ -108,7 +108,7 @@
               </span>
             </div>
           </div>
-          <div v-if="newFile" class="pt-24">
+          <div v-if="newFile" class="pt-24" data-cy="is-file-valid">
             <span v-if="validFile === true">
               <span style="color: green">✓</span> Le fichier est valide selon
               <a
@@ -136,7 +136,7 @@
               </div>
             </span>
           </div>
-          <li v-if="newFile && validFile && diff.length" class="pt-24">
+          <li v-if="newFile && validFile && diff.length" class="pt-24" data-cy="request-modification-form">
             Soumettre la demande de modification
             <p-r :file-content="newFile" @prUrl="prUrl = $event" />
           </li>
