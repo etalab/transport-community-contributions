@@ -10,10 +10,10 @@ jobs:
       - checkout
       - run:
           name: Install Dependencies
-          command: npm install & npm install wait-on & npm install -g @vue/cli-service
+          command: npm install && npm install wait-on && npm install -g @vue/cli-service && npm install cypress --save-dev
       - run:
           name: Run local server
           command: npm run serve & npx wait-on http://localhost:8080
       - run:
           name: Run cypress e2e tests
-          command: $(npm bin)/cypress run
+          command: ./node_modules/.bin/cypress install && ./node_modules/.bin/cypress run
