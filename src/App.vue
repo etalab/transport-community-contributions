@@ -72,6 +72,8 @@
               target="_blank"
               >en suivant le schéma imposé</a
             >.
+            <br>
+            Laissez la colonne <strong>id_lieu</strong> vide, elle sera remplie automatiquement.
           </li>
           <li>
             Chargez le fichier modifié :
