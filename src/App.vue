@@ -165,7 +165,6 @@ export default {
       newline: "\r\n",
       downloadUrl: "",
       diff: "",
-      diff2: "",
       file: "",
       newFile: "",
       prUrl: "",
@@ -183,7 +182,14 @@ export default {
         return "no-diff";
       }
     },
+    resetAll() {
+      this.diff = ""
+      this.newFile = ""
+      this.prUrl = ""
+      this.validFile = undefined
+    },
     handleNewFile(newFileContent) {
+      this.resetAll();
       this.newFile = newFileContent;
       const dmp = new DiffMatchPatch();
 
