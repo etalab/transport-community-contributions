@@ -1,6 +1,7 @@
 version: 2.1
 jobs:
-  build_and_test:
+  build:
+    working_directory: ~/transport
     docker:
       - image: cypress/included:3.2.0
         environment:
@@ -11,10 +12,25 @@ jobs:
       - run:
           name: Install Dependencies
           command: npm install
+      - persist_to_workspace:
+          root: ~/transport
+          paths:
+            - .
+  tests_e2e:
+    working_directory: ~/transport
+    docker:
+      - image: cypress/included:3.2.0
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
+    steps:
+      - attach_workspace:
+          at: ~/transport
       - run:
-          name: Run tests
+          name: Run e2e tests
           command: npm run test:e2e -- --headless
 workflows:
   workflow:
     jobs:
-      - build_and_test
+      - build
+      - tests_e2e
