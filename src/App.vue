@@ -149,8 +149,8 @@
 
 <script>
 import DiffMatchPatch from "diff-match-patch";
-import PR from "./components/PR.vue";
-import FileReader from "./FileReader";
+import PR from "./components/PR";
+import FileReader from "./components/FileReader";
 
 export default {
   name: "App",

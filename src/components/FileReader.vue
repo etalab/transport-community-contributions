@@ -6,6 +6,7 @@
 
 <script>
 import papa from "papaparse";
+import {fillCovoiturageIds} from "@/utils/fillId.js"
 
 
 export default {
@@ -24,6 +25,7 @@ export default {
       // console.log("file:", file);
       reader.onload = (e) => {
         let p = papa.parse(e.target.result);
+        p.data = fillCovoiturageIds(p.data)
         let content = papa.unparse(p, { quotes: true, newline: this.newline, skipEmptyLines: 'greedy' });
         this.$emit("load", content);
       };
