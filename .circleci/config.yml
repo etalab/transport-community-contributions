@@ -13,9 +13,10 @@ jobs:
           name: Install Dependencies
           command: npm install
       - persist_to_workspace:
-          root: ~/transport
+          root: ~/
           paths:
-            - .
+            - .cache
+            - transport
   tests_e2e:
     working_directory: ~/transport
     docker:
@@ -25,12 +26,30 @@ jobs:
           TERM: xterm
     steps:
       - attach_workspace:
-          at: ~/transport
+          at: ~/
       - run:
           name: Run e2e tests
           command: npm run test:e2e -- --headless
+  tests_unit:
+    working_directory: ~/transport
+    docker:
+      - image: cypress/included:3.2.0
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Run jest unit tests
+          command: npm run test:unit
 workflows:
   workflow:
     jobs:
       - build
-      - tests_e2e
+      - tests_e2e:
+          requires:
+              - build
+      - tests_unit:
+          requires:
+              - build

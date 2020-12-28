@@ -24,6 +24,9 @@ export function fillCovoiturageIds(data) {
     for (let [index, row] of data.entries()) {
         if (index > 0) {
             const insee = row[InseeColumnIndex]
+            if (!insee) {
+                continue;
+            }
             const rowId = row[IdColumnIndex]
             if (rowId === '') {
                 const nextCount = (countMap[insee] || 0) + 1

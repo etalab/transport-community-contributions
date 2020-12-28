@@ -72,6 +72,8 @@
               target="_blank"
               >en suivant le schéma imposé</a
             >.
+            <br>
+            Laissez la colonne <strong>id_lieu</strong> vide, elle sera remplie automatiquement.
           </li>
           <li>
             Chargez le fichier modifié :
@@ -140,7 +142,7 @@
             Soumettre la demande de modification
             <p-r :file-content="newFile" @prUrl="prUrl = $event" />
           </li>
-          <li v-if="prUrl">La demande a été créée. Vous pouvez la voir <a :href="prUrl">ici</a>.  </li>
+          <li v-if="prUrl">La demande a été créée. Vous pouvez la voir <a :href="prUrl">ici</a> !  </li>
         </ol>
       </div>
     </div>
