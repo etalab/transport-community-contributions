@@ -13,9 +13,10 @@ jobs:
           name: Install Dependencies
           command: npm install
       - persist_to_workspace:
-          root: ~/transport
+          root: ~/
           paths:
-            - .
+            - .cache
+            - transport
   tests_e2e:
     working_directory: ~/transport
     docker:
@@ -25,7 +26,7 @@ jobs:
           TERM: xterm
     steps:
       - attach_workspace:
-          at: ~/transport
+          at: ~/
       - run:
           name: Run e2e tests
           command: npm run test:e2e -- --headless
