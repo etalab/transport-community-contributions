@@ -30,10 +30,26 @@ jobs:
       - run:
           name: Run e2e tests
           command: npm run test:e2e -- --headless
+  tests_unit:
+    working_directory: ~/transport
+    docker:
+      - image: cypress/included:3.2.0
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Run jest unit tests
+          command: npm run test:unit
 workflows:
   workflow:
     jobs:
       - build
       - tests_e2e:
+          requires:
+              - build
+      - tests_unit:
           requires:
               - build
