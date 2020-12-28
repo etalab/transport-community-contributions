@@ -33,4 +33,6 @@ workflows:
   workflow:
     jobs:
       - build
-      - tests_e2e
+      - tests_e2e:
+          requires:
+              - build
