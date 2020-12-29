@@ -1,37 +1,50 @@
 <template>
-  <label class="text-reader">
-    <input data-cy="file-input" type="file" @change="loadTextFromFile" />
-  </label>
+  <div>
+    <label class="text-reader">
+      <input data-cy="file-input" type="file" @change="loadTextFromFile" />
+    </label>
+    <div v-if="errorMsg" class="pt-24" data-cy="show-file-processing-errors">
+      Erreur : {{ errorMsg }}
+    </div>
+  </div>
 </template>
 
 <script>
 import papa from "papaparse";
-import {fillCovoiturageIds} from "@/utils/fillId.js"
-
+import { fillCovoiturageIds } from "@/utils/fillId.js";
 
 export default {
   data() {
     return {
       schema: {},
-      quotes: []
-    }
+      quotes: [],
+      errorMsg: ""
+    };
   },
-  props: ['newline'],
+  props: ["newline"],
   methods: {
     loadTextFromFile(ev) {
       const file = ev.target.files[0];
       const reader = new FileReader();
 
       // console.log("file:", file);
-      reader.onload = (e) => {
+      reader.onload = e => {
         let p = papa.parse(e.target.result);
-        p.data = fillCovoiturageIds(p.data)
-        let content = papa.unparse(p, { quotes: true, newline: this.newline, skipEmptyLines: 'greedy' });
-        this.$emit("load", content);
+        try {
+          p.data = fillCovoiturageIds(p.data);
+          let content = papa.unparse(p, {
+            quotes: true,
+            newline: this.newline,
+            skipEmptyLines: "greedy"
+          });
+          this.$emit("load", content);
+        } catch (error) {
+          this.errorMsg = error;
+        }
       };
       reader.readAsText(file);
-    },
-  },
+    }
+  }
 };
 </script>
 
