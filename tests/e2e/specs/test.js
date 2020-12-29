@@ -11,11 +11,15 @@ describe('valid file upload', () => {
     cy.get('[data-cy="is-file-valid"]').contains('Le fichier est valide')
     cy.get('[data-cy="request-modification-form"]').contains('Soumettre la demande de modification')
     cy.get('[data-cy="submit-button"]').contains('Envoyer')
+
+    
+
   })
 })
 
 describe('upload invalid file', () => {
   it('Download the file', () => {
+    cy.reload()
     const invalid_db_fixture = 'invalid-base.csv';
     cy.get('[data-cy="file-input"]').attachFile(invalid_db_fixture);
     cy.get('[data-cy="is-file-valid"]').contains('Le fichier n\'est pas valide')
