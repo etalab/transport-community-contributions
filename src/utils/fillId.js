@@ -8,10 +8,10 @@ export function extractCountFromId(id) {
 
 export function createIdFromCount(insee, count) {
     if (insee.length !== inseeCodeSize) {
-        throw `${insee} is not a valid insee code !`
+        throw `${insee} n'est pas un code insee valide !`
     }
     if (count > 999) {
-        throw `There are more than 999 areas for insee code ${insee}, which is not allowed !`
+        throw `Il y a plus que 999 aires pour le code insee ${insee}, ce qui n'est pas autorisé !`
     }
     return `${insee}-C-${count.toString().padStart(3, '0')}`
 }
