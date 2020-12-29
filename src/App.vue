@@ -80,6 +80,7 @@
             <file-reader
               :newline="newline"
               @load="handleNewFile($event)"
+              @geojson="geojson = $event"
             ></file-reader>
             <br />
           </li>
@@ -117,6 +118,15 @@
                 href="https://schema.data.gouv.fr/etalab/schema-lieux-covoiturage/latest.html"
                 >schema.data.gouv.fr</a
               >
+              <div
+                class="pt-24"
+                style="cursor: pointer"
+                @click="showMap = true"
+                data-cy="show-the-map-link"
+              >
+                🗺️ Voir la carte
+              </div>
+              <Map v-if="showMap" :geojson="geojson"></Map>
             </span>
             <span v-else-if="validFile === false">
               <span style="color: red">❌</span> Le fichier n'est pas valide
@@ -153,12 +163,14 @@
 import DiffMatchPatch from "diff-match-patch";
 import PR from "./components/PR";
 import FileReader from "./components/FileReader";
+import Map from "./components/Map";
 
 export default {
   name: "App",
   components: {
     PR,
     FileReader,
+    Map
   },
   data() {
     return {
@@ -169,7 +181,9 @@ export default {
       newFile: "",
       prUrl: "",
       validFile: undefined,
-      fileAvailable: undefined
+      fileAvailable: undefined,
+      geojson: {},
+      showMap: false
     };
   },
   methods: {
@@ -187,6 +201,7 @@ export default {
       this.newFile = ""
       this.prUrl = ""
       this.validFile = undefined
+      this.showMap = false
     },
     handleNewFile(newFileContent) {
       this.resetAll();
