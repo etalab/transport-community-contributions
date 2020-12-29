@@ -19,9 +19,21 @@ describe('valid file upload', () => {
 
 describe('upload invalid file', () => {
   it('Download the file', () => {
+    cy.reload()
     const invalid_db_fixture = 'invalid-base.csv';
     cy.get('[data-cy="file-input"]').attachFile(invalid_db_fixture);
     cy.get('[data-cy="is-file-valid"]').contains('Le fichier n\'est pas valide')
+    cy.get('[data-cy="request-modification-form"]').should('not.exist')
+    cy.get('[data-cy="submit-button"]').should('not.exist')
+  })
+})
+
+describe('upload file with invalid insee code', () => {
+  it('tries a insee code too long', () => {
+    cy.reload()
+    const invalid_db_fixture = 'invalid-insee-code.csv';
+    cy.get('[data-cy="file-input"]').attachFile(invalid_db_fixture);
+    cy.get('[data-cy="show-file-processing-errors"]').contains('Erreur : ')
     cy.get('[data-cy="request-modification-form"]').should('not.exist')
     cy.get('[data-cy="submit-button"]').should('not.exist')
   })
