@@ -11,9 +11,6 @@ describe('valid file upload', () => {
     cy.get('[data-cy="is-file-valid"]').contains('Le fichier est valide')
     cy.get('[data-cy="request-modification-form"]').contains('Soumettre la demande de modification')
     cy.get('[data-cy="submit-button"]').contains('Envoyer')
-
-    
-
   })
 })
 
@@ -36,5 +33,17 @@ describe('upload file with invalid insee code', () => {
     cy.get('[data-cy="show-file-processing-errors"]').contains('Erreur : ')
     cy.get('[data-cy="request-modification-form"]').should('not.exist')
     cy.get('[data-cy="submit-button"]').should('not.exist')
+  })
+})
+
+describe('test the map', () => {
+  it('checks the map exists', () => {
+    cy.reload()
+    const valid_db_fixture = 'valid-base-empty-lines.csv';
+    cy.get('[data-cy="file-input"]').attachFile(valid_db_fixture);
+    cy.get('[data-cy="show-the-map-link"]').contains('Voir la carte')
+    cy.get('[data-cy="map"]').should('not.exist')
+    cy.get('[data-cy="show-the-map-link"]').click()
+    cy.get('[data-cy="map"]').find('path.leaflet-interactive').should('have.length', 1)
   })
 })
