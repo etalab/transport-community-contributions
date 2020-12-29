@@ -12,6 +12,7 @@
 <script>
 import papa from "papaparse";
 import { fillCovoiturageIds } from "@/utils/fillId.js";
+import { createGeoJSON } from "@/utils/createGeoJSON.js";
 
 export default {
   data() {
@@ -31,6 +32,7 @@ export default {
       reader.onload = e => {
         let p = papa.parse(e.target.result);
         try {
+          const geojson = createGeoJSON(p.data);
           p.data = fillCovoiturageIds(p.data);
           let content = papa.unparse(p, {
             quotes: true,
@@ -38,6 +40,7 @@ export default {
             skipEmptyLines: "greedy"
           });
           this.$emit("load", content);
+          this.$emit("geojson", geojson);
         } catch (error) {
           this.errorMsg = error;
         }
