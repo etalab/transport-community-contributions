@@ -1,2 +1,2 @@
-[context.production]
-  environment = { NODE_VERSION = "14.15.4" }
+[build.environment]
+    NODE_VERSION = "14.15.4"
