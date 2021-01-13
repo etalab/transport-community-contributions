@@ -38,7 +38,7 @@ jobs:
           at: ~/
       - run:
           name: Run e2e tests
-          command: npm run test:e2e -- --headless
+          command: node --version && npm run test:e2e -- --headless
   tests_unit:
     working_directory: ~/transport
     docker:
