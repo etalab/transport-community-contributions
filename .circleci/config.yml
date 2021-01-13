@@ -9,21 +9,15 @@ jobs:
         environment:
           ## this enables colors in the output
           TERM: xterm
+    executor:
+      name: node/default
+      tag: '14.15.4'
     steps:
       - checkout
-      - run: node --version
-      - run: npm --version
-      - run: which node
-      - run: which npm
       - node/install:
           node-version: '14.15.4'
-      - run: node --version
-      - run: npm --version
-      - run: which node
-      - run: which npm
-      - run:
-          name: Install Dependencies
-          command: npm install
+      - node/install-packages:
+          override-ci-command: npm install
       - persist_to_workspace:
           root: ~/
           paths:
@@ -42,7 +36,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
-      - run: node --version
       - run:
           name: Run e2e tests
           command: npm run test:e2e -- --headless
