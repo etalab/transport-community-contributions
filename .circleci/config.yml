@@ -36,9 +36,13 @@ jobs:
         environment:
           ## this enables colors in the output
           TERM: xterm
+    executor:
+      name: node/default
+      tag: '14.15.4'
     steps:
       - attach_workspace:
           at: ~/
+      - run: node --version
       - run:
           name: Run e2e tests
           command: npm run test:e2e -- --headless
