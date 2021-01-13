@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  node: circleci/node@4.1.0
 jobs:
   build:
     working_directory: ~/transport
@@ -7,11 +9,15 @@ jobs:
         environment:
           ## this enables colors in the output
           TERM: xterm
+    executor:
+      name: node/default
+      tag: '14.15.4'
     steps:
       - checkout
-      - run:
-          name: Install Dependencies
-          command: npm install
+      - node/install:
+          node-version: '14.15.4'
+      - node/install-packages:
+          override-ci-command: npm install
       - persist_to_workspace:
           root: ~/
           paths:
@@ -24,12 +30,15 @@ jobs:
         environment:
           ## this enables colors in the output
           TERM: xterm
+    executor:
+      name: node/default
+      tag: '14.15.4'
     steps:
       - attach_workspace:
           at: ~/
       - run:
           name: Run e2e tests
-          command: npm run test:e2e -- --headless
+          command: node --version && npm run test:e2e -- --headless
   tests_unit:
     working_directory: ~/transport
     docker:
@@ -49,7 +58,7 @@ workflows:
       - build
       - tests_e2e:
           requires:
-              - build
+            - build
       - tests_unit:
           requires:
-              - build
+            - build
