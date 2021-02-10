@@ -273,7 +273,9 @@ export default {
   },
   mounted() {
     fetch(
-      "https://raw.githubusercontent.com/etalab/transport-base-nationale-covoiturage/main/bnlc-.csv"
+      `https://raw.githubusercontent.com/${this.githubPathWithBranch}/bnlc-.csv`, {
+        cache: 'no-store'
+      }
     )
       .then(response => {
         if (!response.ok) {
