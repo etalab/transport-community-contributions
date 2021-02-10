@@ -99,12 +99,11 @@ export default {
       )
     },
     async createPR() {
-      let tok = `a${6+3}bfc7d35f61c23ce43008261c66337c7f55a9a${5+1}`
       const pr = new PR(
-        "etalab",
-        "transport-base-nationale-covoiturage",
-        "main",
-        tok
+        process.env.VUE_APP_ORGANIZATION,
+        process.env.VUE_APP_REPO_NAME,
+        process.env.VUE_APP_BRANCH_NAME,
+        process.env.VUE_APP_THE_NICE_BOT_SPEC
       );
 
       pr.configure(
