@@ -88,15 +88,21 @@ export default {
       // the PR url is added to the message
       this.formData.message = `${this.formData.message} \n\n ${pr_url}`
 
-      fetch(location.href, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: this.encode({'form-name': this.formName, ...this.formData})
-      }).finally(() =>
+      if (process.env.NODE_ENV === 'production') {
+        // send form to netlify only in production
+        fetch(location.href, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: this.encode({'form-name': this.formName, ...this.formData})
+        }).finally(() =>
+          this.loading = false
+        )
+      } else {
+        console.log(`NODE_ENV is ${process.env.NODE_ENV}, no form submission is made to to netlify`)
         this.loading = false
-      )
+      }
     },
     async createPR() {
       const pr = new PR(
