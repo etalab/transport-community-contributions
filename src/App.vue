@@ -21,7 +21,7 @@
         <p>
           La Base Nationale des Lieux de Covoiturage (BNLC) est hébergée
           <a
-            href="https://github.com/etalab/transport-base-nationale-covoiturage"
+            :href="`https://github.com/${githubPath}`"
             >sur github</a
           >.
         </p>
@@ -185,6 +185,14 @@ export default {
       geojson: {},
       showMap: false
     };
+  },
+  computed: {
+    githubPath() {
+      return `${process.env.VUE_APP_ORGANIZATION}/${process.env.VUE_APP_REPO_NAME}`
+    },
+    githubPathWithBranch() {
+      return `${this.githubPath}/${process.env.VUE_APP_BRANCH_NAME}`
+    }
   },
   methods: {
     getClass(code) {
