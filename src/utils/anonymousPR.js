@@ -46,15 +46,33 @@ export async function createAnonymousPR({
         fork_main_head = merge.data.sha;
     } catch (e) {
         console.log(
-            "Creation of a PR has failed, repo are probably identical, it's ok"
+            `Creation of the PR has failed, meaning ${botUserName}/${repoName}:${upstreamTargetBranch} should not be behind ${upstreamOwner}/${repoName}:${upstreamTargetBranch}`
         );
-        // TODO : check why it failed, it could be another reason than identical repos
-        const main_ref = await octokit.git.getRef({
+        console.log(
+            `Just checking if ${botUserName}/${repoName}:${upstreamTargetBranch} is up-to-date`
+        );
+
+        const compare = await octokit.repos.compareCommits({
             owner: botUserName,
             repo: repoName,
-            ref: `heads/${upstreamTargetBranch}`
+            head: upstreamTargetBranch,
+            base: `${upstreamOwner}:${upstreamTargetBranch}`
         });
-        fork_main_head = main_ref.data.object.sha;
+
+        if (compare.data.behind_by === 0) {
+            console.log(
+                `Good! ${botUserName}/${repoName}:${upstreamTargetBranch} is up-to-date`
+            );
+            const fork_head_ref = await octokit.git.getRef({
+                owner: botUserName,
+                repo: repoName,
+                ref: `heads/${upstreamTargetBranch}`
+            });
+            fork_main_head = fork_head_ref.data.object.sha;
+        } else {            
+            console.error(`Unable to merge ${upstreamOwner}/${repoName}:${upstreamTargetBranch} in ${botUserName}/${repoName}:${upstreamTargetBranch}, but it is necessary! Aborting...`)
+            throw(`PR creation has failed. Aborting.`)
+        }
     }
 
     console.log(`Creating a branch in ${botUserName}/${repoName}`);
