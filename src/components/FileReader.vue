@@ -30,6 +30,7 @@ export default {
 
       // console.log("file:", file);
       reader.onload = e => {
+        this.errorMsg = ""
         let p = papa.parse(e.target.result);
         try {
           const geojson = createGeoJSON(p.data);
@@ -39,6 +40,10 @@ export default {
             newline: this.newline,
             skipEmptyLines: "greedy"
           });
+          let blob = new Blob([content], { type: "text/csv" });
+          let downloadConvertedFileUrl = window.URL.createObjectURL(blob);
+
+          this.$emit("filledFileUrl", downloadConvertedFileUrl);
           this.$emit("load", content);
           this.$emit("geojson", geojson);
         } catch (error) {

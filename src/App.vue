@@ -81,6 +81,7 @@
               :newline="newline"
               @load="handleNewFile($event)"
               @geojson="geojson = $event"
+              @filledFileUrl="filledFileUrl = $event"
             ></file-reader>
             <br />
           </li>
@@ -130,13 +131,19 @@
             </span>
             <span v-else-if="validFile === false">
               <span style="color: red">❌</span> Le fichier n'est pas valide
-              selon schema.data.gouv.fr. Pour en savoir plus sur les erreurs de
-              la validation détectées, rendez-vous sur
-              <a
-                href="https://validata.etalab.studio/table-schema?schema_url=https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/0.2.0/schema.json"
-                >cette page</a
-              >
-              et validez vos données. Vous aurez accès à un rapport d'erreur.
+              selon schema.data.gouv.fr. 
+              
+              <div class="pt-24">
+                Pour en savoir plus sur les erreurs de
+                la validation détectées :
+                <ul>
+                  <li>téléchargez <a :href=filledFileUrl>ce fichier</a> (identique à celui que vous avez chargé, avec la colonne id_lieu remplie) </li>
+                  <li>et validez le sur <a
+                  href="https://validata.etalab.studio/table-schema?schema_url=https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/0.2.0/schema.json"
+                  target="_blank">cette page</a>.</li>
+                </ul>
+                Vous aurez accès à un rapport d'erreur.
+              </div>
             </span>
             <span v-else>
               Validation du fichier par schema.data.gouv.fr
@@ -183,7 +190,8 @@ export default {
       validFile: undefined,
       fileAvailable: undefined,
       geojson: {},
-      showMap: false
+      showMap: false,
+      filledFileUrl: ""
     };
   },
   computed: {
