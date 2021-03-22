@@ -40,7 +40,7 @@
             v-model="formData.message"
           ></textarea>
         </p>
-        <p>
+        <p v-if="!prIsSubmitted">
           <button class="button" type="submit" data-cy="submit-button">
             Envoyer la demande de modification
           </button>
@@ -55,6 +55,9 @@
         <div></div>
         <div></div>
       </div>
+    </div>
+    <div v-if="errorMessage" class="error">
+      {{ errorMessage }}
     </div>
   </div>
 </template>
@@ -71,7 +74,9 @@ export default {
       description: '',
       loading: false,
       formName: 'proposition_de_modification',
-      formData: {nom: '', iam: '', email:'', message: ''}
+      formData: {nom: '', iam: '', email:'', message: ''},
+      errorMessage: '',
+      prIsSubmitted: false
     }
   },
   methods: {
@@ -84,7 +89,15 @@ export default {
     },
     async handleFormSubmit() {
       this.loading = true
-      const pr_url = await this.createPR()
+      this.prIsSubmitted = true
+      let pr_url
+      try {
+        pr_url = await this.createPR()
+      } catch(e) {
+        this.loading = false
+        this.errorMessage = "La demande de modification a échoué. Merci de nous contacter à l'adresse contact@transport.beta.gouv.fr"
+        return
+      }
 
       // the PR url is added to the message
       this.formData.message = `${this.formData.message} \n\n ${pr_url}`
