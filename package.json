@@ -10,9 +10,10 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@prb0t/pr": "^1.0.0",
+    "@octokit/rest": "^18.3.5",
     "core-js": "^3.8.3",
     "diff-match-patch": "^1.0.5",
+    "js-base64": "^3.6.0",
     "leaflet": "^1.7.1",
     "papaparse": "^5.3.0",
     "vue": "^2.6.11",

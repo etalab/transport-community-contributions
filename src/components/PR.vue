@@ -40,7 +40,7 @@
             v-model="formData.message"
           ></textarea>
         </p>
-        <p>
+        <p v-if="!prIsSubmitted">
           <button class="button" type="submit" data-cy="submit-button">
             Envoyer la demande de modification
           </button>
@@ -56,11 +56,15 @@
         <div></div>
       </div>
     </div>
+    <div v-if="errorMessage" class="error">
+      {{ errorMessage }}
+    </div>
   </div>
 </template>
 
 <script>
-import PR from "@prb0t/pr";
+import { createAnonymousPR } from "../utils/anonymousPR.js";
+import { Base64 } from "js-base64";
 
 export default {
   name: "PR",
@@ -70,7 +74,9 @@ export default {
       description: '',
       loading: false,
       formName: 'proposition_de_modification',
-      formData: {nom: '', iam: '', email:'', message: ''}
+      formData: {nom: '', iam: '', email:'', message: ''},
+      errorMessage: '',
+      prIsSubmitted: false
     }
   },
   methods: {
@@ -83,7 +89,15 @@ export default {
     },
     async handleFormSubmit() {
       this.loading = true
-      const pr_url = await this.createPR()
+      this.prIsSubmitted = true
+      let pr_url
+      try {
+        pr_url = await this.createPR()
+      } catch(e) {
+        this.loading = false
+        this.errorMessage = "La demande de modification a échoué. Merci de nous contacter à l'adresse contact@transport.beta.gouv.fr"
+        return
+      }
 
       // the PR url is added to the message
       this.formData.message = `${this.formData.message} \n\n ${pr_url}`
@@ -105,28 +119,20 @@ export default {
       }
     },
     async createPR() {
-      const pr = new PR(
-        process.env.VUE_APP_ORGANIZATION,
-        process.env.VUE_APP_REPO_NAME,
-        process.env.VUE_APP_BRANCH_NAME,
-        process.env.VUE_APP_THE_NICE_BOT_SPEC
-      );
+      const pr = await createAnonymousPR({
+        botUserName: "the-nice-bot",
+        botPersonalToken: process.env.VUE_APP_THE_NICE_BOT_SPEC,
+        repoName: process.env.VUE_APP_REPO_NAME,
+        upstreamOwner: process.env.VUE_APP_ORGANIZATION,
+        upstreamTargetBranch: process.env.VUE_APP_BRANCH_NAME,
+        filePath: "bnlc-.csv",
+        base64data: Base64.encode(this.fileContent)
+      });
 
-      pr.configure(
-        [{ path: "bnlc-.csv", content: this.fileContent }],
-        "Proposition de Modification",
-        "Proposition de Modification",
-        this.formData.message,
-        {
-          name: "Un contributeur anonyme",
-          email: "contact@transport.data.gouv.fr",
-        }
-      );
-      const { data } = await pr.send(); // data holds the response of the PR creation.
-      this.$emit("prUrl", data.html_url)
-      return data.html_url
-    },
-  },
+      this.$emit("prUrl", pr.data.html_url);
+      return pr.data.html_url;
+    }
+  }
 };
 </script>
 

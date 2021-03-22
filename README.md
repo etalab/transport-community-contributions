@@ -55,6 +55,6 @@ The parsing of the csv file in the browser is done using [Papa Parse](https://ww
 
 The computation of the diffs between the proposed file and the original one is done using [diff-match-patch](https://github.com/google/diff-match-patch).
 
-When a user submits a change proposal, a pull request is created on the [database github repo](https://github.com/etalab/transport-base-nationale-covoiturage/). The PR is created using the [PRB0t](https://github.com/PRB0t/PRB0t) library. The PR contains no personal information, but the contributor name and contact is sent by email to the transport team along with the corresponding PR number.
+When a user submits a change proposal, a pull request is created on the [database github repo](https://github.com/etalab/transport-base-nationale-covoiturage/). The anonymous PR is created using [octokit](https://github.com/octokit/rest.js). The PR contains no personal information, but the contributor name and contact is sent by email to the transport team along with the corresponding PR number.
 
 When the transport team reviews and validate the PR, the database is automatically updated.
