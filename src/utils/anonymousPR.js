@@ -1,7 +1,7 @@
 const { Octokit } = require("@octokit/rest");
 
 export async function createAnonymousPR({
-    botUserName,
+    botUserName, // TODO : fetch the user name from the personnal token
     botPersonnalToken,
     repoName,
     upstreamOwner,
@@ -17,6 +17,8 @@ export async function createAnonymousPR({
         `Updating the fork to match the upstream ${upstreamTargetBranch} branch`
     );
     try {
+        // we try to create a PR and merge it
+        // it can fail, for example if the fork is already up-to-date with the upstream
         console.log(
             `Creating a PR from ${upstreamOwner}/${repoName}:${upstreamTargetBranch} towards ${botUserName}/${repoName}:${upstreamTargetBranch}`
         );
@@ -56,6 +58,7 @@ export async function createAnonymousPR({
     }
 
     console.log(`Creating a branch in ${botUserName}/${repoName}`);
+    // branch_name is unique, as it includes the number of milliseconds since January 1, 1970
     const branch_name = `branch-${Date.now()}`;
 
     await octokit.git.createRef({
