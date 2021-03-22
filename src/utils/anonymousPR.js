@@ -1,8 +1,8 @@
 const { Octokit } = require("@octokit/rest");
 
 export async function createAnonymousPR({
-    botUserName, // TODO : fetch the user name from the personnal token
-    botPersonnalToken,
+    botUserName, // TODO : fetch the user name from the personal token
+    botPersonalToken,
     repoName,
     upstreamOwner,
     upstreamTargetBranch,
@@ -10,7 +10,7 @@ export async function createAnonymousPR({
     base64data
 }) {
     const octokit = new Octokit({
-        auth: botPersonnalToken
+        auth: botPersonalToken
     });
     let fork_main_head;
     console.log(

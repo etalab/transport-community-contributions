@@ -121,7 +121,7 @@ export default {
     async createPR() {
       const pr = await createAnonymousPR({
         botUserName: "the-nice-bot",
-        botPersonnalToken: process.env.VUE_APP_THE_NICE_BOT_SPEC,
+        botPersonalToken: process.env.VUE_APP_THE_NICE_BOT_SPEC,
         repoName: process.env.VUE_APP_REPO_NAME,
         upstreamOwner: process.env.VUE_APP_ORGANIZATION,
         upstreamTargetBranch: process.env.VUE_APP_BRANCH_NAME,
