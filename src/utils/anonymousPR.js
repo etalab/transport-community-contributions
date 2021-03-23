@@ -1,5 +1,26 @@
 const { Octokit } = require("@octokit/rest");
 
+async function getBlobSha(octokit, botUserName, repoName, commitSha, path) {
+    const commit = await octokit.git.getCommit({
+        owner: botUserName,
+        repo: repoName,
+        commit_sha: commitSha,
+    });
+    const tree = await octokit.git.getTree({
+        owner: botUserName,
+        repo: repoName,
+        tree_sha: commit.data.tree.sha
+    });
+
+    const treeList = tree.data.tree
+    const treeElement = treeList.filter(e => {return e.path === path})
+    if (treeElement.length > 0 && treeElement[0].sha) {
+        return treeElement[0].sha
+    } else {
+        throw("could not get file sha")
+    }
+}
+
 export async function createAnonymousPR({
     botUserName, // TODO : fetch the user name from the personal token
     botPersonalToken,
@@ -12,10 +33,13 @@ export async function createAnonymousPR({
     const octokit = new Octokit({
         auth: botPersonalToken
     });
-    let fork_main_head;
+    let fork_head_sha; // the sha of the fork head commit
+    let file_head_sha; // the sha of the file blob we want to modify (filePath)
+
     console.log(
         `Updating the fork to match the upstream ${upstreamTargetBranch} branch`
     );
+
     try {
         // we try to create a PR and merge it
         // it can fail, for example if the fork is already up-to-date with the upstream
@@ -43,7 +67,7 @@ export async function createAnonymousPR({
 
         console.log("PR has been merged");
 
-        fork_main_head = merge.data.sha;
+        fork_head_sha = merge.data.sha;
     } catch (e) {
         console.log(
             `Creation of the PR has failed, meaning ${botUserName}/${repoName}:${upstreamTargetBranch} should not be behind ${upstreamOwner}/${repoName}:${upstreamTargetBranch}`
@@ -68,34 +92,30 @@ export async function createAnonymousPR({
                 repo: repoName,
                 ref: `heads/${upstreamTargetBranch}`
             });
-            fork_main_head = fork_head_ref.data.object.sha;
+            fork_head_sha = fork_head_ref.data.object.sha;
         } else {            
             console.error(`Unable to merge ${upstreamOwner}/${repoName}:${upstreamTargetBranch} in ${botUserName}/${repoName}:${upstreamTargetBranch}, but it is necessary! Aborting...`)
             throw(`PR creation has failed. Aborting.`)
         }
     }
 
+    
     console.log(`Creating a branch in ${botUserName}/${repoName}`);
     // branch_name is unique, as it includes the number of milliseconds since January 1, 1970
     const branch_name = `branch-${Date.now()}`;
-
+    
     await octokit.git.createRef({
         owner: botUserName,
         repo: repoName,
         ref: `refs/heads/${branch_name}`,
-        sha: fork_main_head
+        sha: fork_head_sha
     });
-
+    
     console.log(`Branch ${branch_name} successfully created`);
 
-    const current_file = await octokit.repos.getContent({
-        owner: botUserName,
-        repo: repoName,
-        path: filePath,
-        ref: branch_name
-    });
-
-    console.log("Current file sha is ", current_file.data.sha);
+    // to modify a sha, we need its current sha
+    // cannot use getContent as there is a file size limitation of 1MB
+    file_head_sha = await getBlobSha(octokit, botUserName, repoName, fork_head_sha, filePath)
 
     await octokit.repos.createOrUpdateFileContents({
         owner: botUserName,
@@ -104,7 +124,7 @@ export async function createAnonymousPR({
         branch: branch_name,
         message: "update the file",
         content: base64data,
-        sha: current_file.data.sha,
+        sha: file_head_sha,
         "committer.name": botUserName,
         "committer.email": "the-nice-bot@gmail.com",
         "author.name": botUserName,
