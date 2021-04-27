@@ -20,10 +20,7 @@
       <div class="pt-24">
         <p>
           La Base Nationale des Lieux de Covoiturage (BNLC) est hébergée
-          <a
-            :href="`https://github.com/${githubPath}`"
-            >sur github</a
-          >.
+          <a :href="`https://github.com/${githubPath}`">sur github</a>.
         </p>
         <p>
           Elle est référencée sur
@@ -72,8 +69,9 @@
               target="_blank"
               >en suivant le schéma imposé</a
             >.
-            <br>
-            Laissez la colonne <strong>id_lieu</strong> vide, elle sera remplie automatiquement.
+            <br />
+            Laissez la colonne <strong>id_lieu</strong> vide, elle sera remplie
+            automatiquement.
           </li>
           <li>
             Chargez le fichier modifié :
@@ -131,16 +129,24 @@
             </span>
             <span v-else-if="validFile === false">
               <span style="color: red">❌</span> Le fichier n'est pas valide
-              selon schema.data.gouv.fr. 
-              
+              selon schema.data.gouv.fr.
+
               <div class="pt-24">
-                Pour en savoir plus sur les erreurs de
-                la validation détectées :
+                Pour en savoir plus sur les erreurs de la validation détectées :
                 <ul>
-                  <li>téléchargez <a :href=filledFileUrl>ce fichier</a> (identique à celui que vous avez chargé, avec la colonne id_lieu remplie) </li>
-                  <li>et validez le sur <a
-                  href="https://validata.etalab.studio/table-schema?schema_url=https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/0.2.0/schema.json"
-                  target="_blank">cette page</a>.</li>
+                  <li>
+                    téléchargez
+                    <a :href="filledFileUrl">ce fichier</a> (identique à celui
+                    que vous avez chargé, avec la colonne id_lieu remplie)
+                  </li>
+                  <li>
+                    et validez le sur
+                    <a
+                      href="https://validata.etalab.studio/table-schema?schema_url=https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/0.2.0/schema.json"
+                      target="_blank"
+                      >cette page</a
+                    >.
+                  </li>
                 </ul>
                 Vous aurez accès à un rapport d'erreur.
               </div>
@@ -155,11 +161,18 @@
               </div>
             </span>
           </div>
-          <li v-if="newFile && validFile && diff.length" class="pt-24" data-cy="request-modification-form">
+          <li
+            v-if="newFile && validFile && diff.length"
+            class="pt-24"
+            data-cy="request-modification-form"
+          >
             Soumettre la demande de modification
             <p-r :file-content="newFile" @prUrl="prUrl = $event" />
           </li>
-          <li v-if="prUrl">La demande a été créée. Vous pouvez la voir <a :href="prUrl">ici</a> !  </li>
+          <li v-if="prUrl">
+            La demande a été créée. Vous pouvez la voir
+            <a :href="prUrl">ici</a> !
+          </li>
         </ol>
       </div>
     </div>
@@ -196,10 +209,10 @@ export default {
   },
   computed: {
     githubPath() {
-      return `${process.env.VUE_APP_ORGANIZATION}/${process.env.VUE_APP_REPO_NAME}`
+      return `${process.env.VUE_APP_ORGANIZATION}/${process.env.VUE_APP_REPO_NAME}`;
     },
     githubPathWithBranch() {
-      return `${this.githubPath}/${process.env.VUE_APP_BRANCH_NAME}`
+      return `${this.githubPath}/${process.env.VUE_APP_BRANCH_NAME}`;
     }
   },
   methods: {
@@ -213,11 +226,11 @@ export default {
       }
     },
     resetAll() {
-      this.diff = ""
-      this.newFile = ""
-      this.prUrl = ""
-      this.validFile = undefined
-      this.showMap = false
+      this.diff = "";
+      this.newFile = "";
+      this.prUrl = "";
+      this.validFile = undefined;
+      this.showMap = false;
     },
     handleNewFile(newFileContent) {
       this.resetAll();
@@ -237,18 +250,20 @@ export default {
         "schema",
         "https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/0.2.0/schema.json"
       );
-      const file = new File([this.newFile], "newFile.csv", {type: 'text/csv;charset=utf-8;'})
+      const file = new File([this.newFile], "newFile.csv", {
+        type: "text/csv;charset=utf-8;"
+      });
       formData.append("file", file);
 
-      fetch("https://go.validata.fr/api/v1/validate", {
+      fetch(`${process.env.VUE_APP_VALIDATA_API}/validate`, {
         method: "POST",
         headers: {
-          Accept: "application/json",
+          Accept: "application/json"
         },
-        body: formData,
+        body: formData
       })
-        .then((data) => data.json())
-        .then((res) => {
+        .then(data => data.json())
+        .then(res => {
           this.validFile = res.report.valid;
         });
     },
@@ -269,7 +284,7 @@ export default {
           let array = this.diff[i - 1][1].split(this.newline);
           if (array.length > 1) {
             filteredDiffs.push([0, array[array.length - 2]]);
-            filteredDiffs.push([0, this.newline])
+            filteredDiffs.push([0, this.newline]);
           }
           filteredDiffs.push([0, array[array.length - 1]]);
         }
@@ -278,19 +293,20 @@ export default {
           let array = this.diff[i + 1][1].split(this.newline);
           filteredDiffs.push([0, array[0]]);
           if (array.length > 1) {
-            filteredDiffs.push([0, this.newline])
+            filteredDiffs.push([0, this.newline]);
           }
           filteredDiffs.push([2, "stop"]);
         }
       }
       // console.log("filteredDiffs:", filteredDiffs);
       return filteredDiffs;
-    },
+    }
   },
   mounted() {
     fetch(
-      `https://raw.githubusercontent.com/${this.githubPathWithBranch}/bnlc-.csv`, {
-        cache: 'no-store'
+      `https://raw.githubusercontent.com/${this.githubPathWithBranch}/bnlc-.csv`,
+      {
+        cache: "no-store"
       }
     )
       .then(response => {
@@ -309,7 +325,7 @@ export default {
         console.error("La base n'est pas disponible", error);
         this.fileAvailable = false;
       });
-  },
+  }
 };
 </script>
 
