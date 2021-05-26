@@ -234,15 +234,17 @@ export default {
     },
     handleNewFile(newFileContent) {
       this.resetAll();
-      this.newFile = newFileContent;
-      const dmp = new DiffMatchPatch();
+      if (newFileContent) {
+        this.newFile = newFileContent;
+        const dmp = new DiffMatchPatch();
 
-      this.diff = dmp.diff_main(this.file, this.newFile);
-      // console.log('diff:', this.diff)
-      dmp.diff_cleanupSemantic(this.diff);
-      // console.log("this.diff:", this.diff);
-      this.diff = this.keepOnlyDiffContext(this.diff, 0);
-      this.getFileValidation();
+        this.diff = dmp.diff_main(this.file, this.newFile);
+        // console.log('diff:', this.diff)
+        dmp.diff_cleanupSemantic(this.diff);
+        // console.log("this.diff:", this.diff);
+        this.diff = this.keepOnlyDiffContext(this.diff, 0);
+        this.getFileValidation();
+      }
     },
     getFileValidation() {
       let formData = new FormData();
