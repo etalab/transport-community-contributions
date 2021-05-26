@@ -98,7 +98,7 @@
                 v-for="(d, i) in diff"
                 v-bind:key="`diff-${i}`"
                 v-bind:class="getClass(d[0])"
-                style="white-space: pre-line"
+                style="white-space: pre"
               >
                 <span v-if="d[0] === 2">
                   <br />
