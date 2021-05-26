@@ -70,8 +70,13 @@
               >en suivant le schéma imposé</a
             >.
             <br />
-            Laissez la colonne <strong>id_lieu</strong> vide, elle sera remplie
-            automatiquement.
+            <ul>
+              <li>
+                Laissez la colonne <strong>id_lieu</strong> vide, elle sera
+                remplie automatiquement
+              </li>
+              <li>Le format attendu est en csv</li>
+            </ul>
           </li>
           <li>
             Chargez le fichier modifié :
@@ -371,7 +376,7 @@ export default {
 }
 
 li {
-  padding-bottom: 12px;
+  padding-bottom: 6px;
 }
 
 .overflow-auto {
