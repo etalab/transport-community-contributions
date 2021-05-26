@@ -25,7 +25,7 @@ export function fillCovoiturageIds(data) {
         if (index > 0) {
             const insee = row[InseeColumnIndex]
             if (!insee) {
-                continue;
+                throw `Code insee manquant ligne ${index + 1}.`
             }
             const rowId = row[IdColumnIndex]
             if (rowId === '') {
