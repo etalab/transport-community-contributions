@@ -136,8 +136,11 @@
                 <ul>
                   <li>
                     téléchargez
-                    <a :href="filledFileUrl">ce fichier</a> (identique à celui
-                    que vous avez chargé, avec la colonne id_lieu remplie)
+                    <a :href="filledFileUrl" download="bnlc-for-validata.csv"
+                      >ce fichier</a
+                    >
+                    (identique à celui que vous avez chargé, avec la colonne
+                    id_lieu remplie)
                   </li>
                   <li>
                     et validez le sur
