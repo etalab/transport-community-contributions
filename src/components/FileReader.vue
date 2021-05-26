@@ -13,6 +13,7 @@
 import papa from "papaparse";
 import { fillCovoiturageIds } from "@/utils/fillId.js";
 import { createGeoJSON } from "@/utils/createGeoJSON.js";
+import jschardet from "jschardet";
 
 export default {
   data() {
@@ -24,14 +25,17 @@ export default {
   },
   props: ["newline"],
   methods: {
-    loadTextFromFile(ev) {
+    async loadTextFromFile(ev) {
       const file = ev.target.files[0];
+      let encoding = await this.getFileEncoding(file);
+      console.log("encoding détecté :", encoding);
+
       const reader = new FileReader();
 
       // console.log("file:", file);
-      reader.onload = e => {
+      reader.onload = () => {
         this.errorMsg = "";
-        let p = papa.parse(e.target.result);
+        let p = papa.parse(reader.result);
         try {
           const geojson = createGeoJSON(p.data);
           p.data = fillCovoiturageIds(p.data);
@@ -51,7 +55,20 @@ export default {
           this.$emit("load", undefined);
         }
       };
-      reader.readAsText(file);
+      reader.readAsText(file, encoding);
+    },
+    getFileEncoding(file) {
+      return new Promise(resolve => {
+        const reader = new FileReader();
+        let encoding;
+
+        reader.onload = () => {
+          let encoding_result = jschardet.detect(reader.result);
+          encoding = encoding_result.encoding;
+          resolve(encoding);
+        };
+        reader.readAsBinaryString(file);
+      });
     }
   }
 };
