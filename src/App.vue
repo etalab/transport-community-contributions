@@ -150,7 +150,7 @@
                   <li>
                     et validez le sur
                     <a
-                      href="https://validata.etalab.studio/table-schema?schema_url=https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/0.2.0/schema.json"
+                      href="https://validata.etalab.studio/table-schema?schema_url=https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/latest/schema.json"
                       target="_blank"
                       >cette page</a
                     >.
@@ -258,7 +258,7 @@ export default {
       let formData = new FormData();
       formData.append(
         "schema",
-        "https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/0.2.0/schema.json"
+        "https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/latest/schema.json"
       );
       const file = new File([this.newFile], "newFile.csv", {
         type: "text/csv;charset=utf-8;"
