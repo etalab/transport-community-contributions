@@ -28,7 +28,8 @@ export async function createAnonymousPR({
     upstreamOwner,
     upstreamTargetBranch,
     filePath,
-    base64data
+    base64data,
+    prDescription,
 }) {
     const octokit = new Octokit({
         auth: botPersonalToken
@@ -146,6 +147,15 @@ export async function createAnonymousPR({
         base: upstreamTargetBranch,
         maintainer_can_modify: false
     });
+
+    // leave the user description as a comment in the PR
+    await octokit.issues.createComment({
+        owner: upstreamOwner,
+        repo: repoName,
+        issue_number: pr_upstream.data.number,
+        body: prDescription,
+    });
+
     console.log(`PR number is ${pr_upstream.data.number} !`);
     console.log(`✌️‍‍`);
     return pr_upstream

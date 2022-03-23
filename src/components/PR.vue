@@ -92,7 +92,7 @@ export default {
       this.prIsSubmitted = true
       let pr_url
       try {
-        pr_url = await this.createPR()
+        pr_url = await this.createPR(this.formData.message)
       } catch(e) {
         this.loading = false
         this.errorMessage = "La demande de modification a échoué. Merci de nous contacter à l'adresse contact@transport.beta.gouv.fr"
@@ -118,7 +118,7 @@ export default {
         this.loading = false
       }
     },
-    async createPR() {
+    async createPR(prDescription) {
       const pr = await createAnonymousPR({
         botUserName: "the-nice-bot",
         botPersonalToken: process.env.VUE_APP_THE_NICE_BOT_SPEC,
@@ -126,7 +126,8 @@ export default {
         upstreamOwner: process.env.VUE_APP_ORGANIZATION,
         upstreamTargetBranch: process.env.VUE_APP_BRANCH_NAME,
         filePath: "bnlc-.csv",
-        base64data: Base64.encode(this.fileContent)
+        base64data: Base64.encode(this.fileContent),
+        prDescription: prDescription
       });
 
       this.$emit("prUrl", pr.data.html_url);
