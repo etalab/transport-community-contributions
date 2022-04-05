@@ -157,6 +157,9 @@
                   </li>
                 </ul>
                 Vous aurez accès à un rapport d'erreur.
+                <div class="pt-24">
+                  En cas de besoin, n'hésitez pas à contacter l'équipe de transport.data.gouv.fr : <a href="mailto:contact@transport.beta.gouv.fr" target="_blank">contact@transport.beta.gouv.fr</a>
+                </div>
               </div>
             </span>
             <span v-else>
