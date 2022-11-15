@@ -3,7 +3,7 @@
     <div class="container">
       <header class="navbar">
         <div class="navbar__container">
-          <a href="transport.data.gouv.fr" class="navbar__home"
+          <a href="https://transport.data.gouv.fr" class="navbar__home"
             ><img
               src="/logo-header.svg"
               alt="transport.data.gouv.fr"
