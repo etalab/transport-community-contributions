@@ -3,7 +3,7 @@
     <div class="container">
       <header class="navbar">
         <div class="navbar__container">
-          <a href="transport.data.gouv.fr" class="navbar__home"
+          <a href="https://transport.data.gouv.fr" class="navbar__home"
             ><img
               src="/logo-header.svg"
               alt="transport.data.gouv.fr"
@@ -158,7 +158,13 @@
                 </ul>
                 Vous aurez accès à un rapport d'erreur.
                 <div class="pt-24">
-                  En cas de besoin, n'hésitez pas à contacter l'équipe de transport.data.gouv.fr : <a href="mailto:contact@transport.beta.gouv.fr" target="_blank">contact@transport.beta.gouv.fr</a>
+                  En cas de besoin, n'hésitez pas à contacter l'équipe de
+                  transport.data.gouv.fr :
+                  <a
+                    href="mailto:contact@transport.beta.gouv.fr"
+                    target="_blank"
+                    >contact@transport.beta.gouv.fr</a
+                  >
                 </div>
               </div>
             </span>
