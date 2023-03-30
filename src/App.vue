@@ -150,7 +150,7 @@
                   <li>
                     et validez le sur
                     <a
-                      href="https://validata.etalab.studio/table-schema?schema_url=https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/latest/schema.json"
+                      href="https://validata.fr/table-schema?schema_url=https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/latest/schema.json"
                       target="_blank"
                       >cette page</a
                     >.
