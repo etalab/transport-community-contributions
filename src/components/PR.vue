@@ -102,7 +102,7 @@ export default {
       // the PR url is added to the message
       this.formData.message = `${this.formData.message} \n\n ${pr_url}`
 
-      if (process.env.NODE_ENV === 'production') {
+      if (import.meta.env.NODE_ENV === 'production') {
         // send form to netlify only in production
         fetch(location.href, {
           method: 'POST',
@@ -114,17 +114,17 @@ export default {
           this.loading = false
         )
       } else {
-        console.log(`NODE_ENV is ${process.env.NODE_ENV}, no form submission is made to to netlify`)
+        console.log(`NODE_ENV is ${import.meta.env.NODE_ENV}, no form submission is made to to netlify`)
         this.loading = false
       }
     },
     async createPR(prDescription) {
       const pr = await createAnonymousPR({
         botUserName: "the-nice-bot",
-        botPersonalToken: process.env.VUE_APP_THE_NICE_BOT_SPEC,
-        repoName: process.env.VUE_APP_REPO_NAME,
-        upstreamOwner: process.env.VUE_APP_ORGANIZATION,
-        upstreamTargetBranch: process.env.VUE_APP_BRANCH_NAME,
+        botPersonalToken: import.meta.env.VITE_THE_NICE_BOT_SPEC,
+        repoName: import.meta.env.VITE_REPO_NAME,
+        upstreamOwner: import.meta.env.VITE_ORGANIZATION,
+        upstreamTargetBranch: import.meta.env.VITE_BRANCH_NAME,
         filePath: "bnlc-.csv",
         base64data: Base64.encode(this.fileContent),
         prDescription: prDescription

@@ -1,4 +1,4 @@
-const { Octokit } = require("@octokit/rest");
+import {Octokit} from "@octokit/rest";
 
 async function getBlobSha(octokit, botUserName, repoName, commitSha, path) {
     const commit = await octokit.git.getCommit({

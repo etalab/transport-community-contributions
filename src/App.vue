@@ -198,9 +198,9 @@
 
 <script>
 import DiffMatchPatch from "diff-match-patch";
-import PR from "./components/PR";
-import FileReader from "./components/FileReader";
-import Map from "./components/Map";
+import PR from "./components/PR.vue";
+import FileReader from "./components/FileReader.vue";
+import Map from "./components/Map.vue";
 
 export default {
   name: "App",
@@ -226,10 +226,10 @@ export default {
   },
   computed: {
     githubPath() {
-      return `${process.env.VUE_APP_ORGANIZATION}/${process.env.VUE_APP_REPO_NAME}`;
+      return `${import.meta.env.VITE_ORGANIZATION}/${import.meta.env.VITE_REPO_NAME}`;
     },
     githubPathWithBranch() {
-      return `${this.githubPath}/${process.env.VUE_APP_BRANCH_NAME}`;
+      return `${this.githubPath}/${import.meta.env.VITE_BRANCH_NAME}`;
     }
   },
   methods: {
@@ -274,7 +274,7 @@ export default {
       });
       formData.append("file", file);
 
-      fetch(`${process.env.VUE_APP_VALIDATA_API}/validate`, {
+      fetch(`${import.meta.env.VITE_VALIDATA_API}/validate`, {
         method: "POST",
         headers: {
           Accept: "application/json"
@@ -349,7 +349,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~template.data.gouv.fr/dist/main.css";
+@import "template.data.gouv.fr/dist/main.css";
 
 #app {
   background-color: var(--theme-background-grey);
