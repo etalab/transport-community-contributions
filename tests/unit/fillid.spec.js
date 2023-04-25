@@ -1,4 +1,4 @@
-import {extractCountFromId, createIdFromCount, fillCovoiturageIds} from '@/utils/fillId.js'
+import {extractCountFromId, createIdFromCount, fillCovoiturageIds} from '../../src/utils/fillId.js'
 
 const data = [
   ['id_lieu', 'address', 'insee'],

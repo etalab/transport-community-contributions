@@ -1,6 +1,13 @@
 module.exports = {
-  preset: '@vue/cli-plugin-unit-jest',
-  transformIgnorePatterns: [
-    "node_modules/(?!@prb0t)"
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    // tell Jest to handle `*.vue` files
+    "vue"
   ],
+  "transform": {
+    // process `*.vue` files with `vue-jest`
+    ".*\\.(vue)$": "vue-jest",
+    ".*\\.(js)$": "babel-jest"
+  }
 }
