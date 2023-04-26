@@ -7,7 +7,7 @@ module.exports = {
   ],
   "transform": {
     // process `*.vue` files with `vue-jest`
-    ".*\\.(vue)$": "vue-jest",
+    ".*\\.(vue)$": "@vue/vue3-jest",
     ".*\\.(js)$": "babel-jest"
   }
 }
