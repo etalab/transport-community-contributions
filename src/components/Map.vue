@@ -19,7 +19,7 @@
 <script>
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { LMap, LTileLayer, LGeoJson } from "vue2-leaflet";
+import { LMap, LTileLayer, LGeoJson } from "@vue-leaflet/vue-leaflet";
 
 export default {
   components: {
