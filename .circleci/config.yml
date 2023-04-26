@@ -1,55 +1,12 @@
 version: 2.1
-jobs:
-  build:
-    working_directory: ~/transport
-    docker:
-      - image: cypress/included:3.2.0
-        environment:
-          ## this enables colors in the output
-          TERM: xterm
-    steps:
-      - checkout
-      - run:
-          name: Install Dependencies
-          command: npm install
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - .cache
-            - transport
-  tests_e2e:
-    working_directory: ~/transport
-    docker:
-      - image: cypress/included:3.2.0
-        environment:
-          ## this enables colors in the output
-          TERM: xterm
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: Run e2e tests
-          command: npm run test:e2e -- --headless
-  tests_unit:
-    working_directory: ~/transport
-    docker:
-      - image: cypress/included:3.2.0
-        environment:
-          ## this enables colors in the output
-          TERM: xterm
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: Run jest unit tests
-          command: npm run test:unit
+orbs:
+  # "cypress-io/cypress@3" installs the latest published
+  # version "s.x.y" of the orb. We recommend you then use
+  # the strict explicit version "cypress-io/cypress@3.x.y"
+  # to lock the version and prevent unexpected CI changes
+  cypress: cypress-io/cypress@3
 workflows:
-  workflow:
+  build:
     jobs:
-      - build
-      - tests_e2e:
-          requires:
-              - build
-      - tests_unit:
-          requires:
-              - build
+      - cypress/run # "run" job comes from "cypress" orb
+          start-command: 'npm run start'
