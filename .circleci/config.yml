@@ -5,9 +5,11 @@ orbs:
   # the strict explicit version "cypress-io/cypress@3.x.y"
   # to lock the version and prevent unexpected CI changes
   cypress: cypress-io/cypress@3
+  jest: blimmer/jest@1.1.1
 workflows:
   build:
     jobs:
       - cypress/run:
           cypress-command: npx cypress run --browser chrome
           install-browsers: true
+      - jest/test
