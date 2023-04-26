@@ -7,7 +7,7 @@ orbs:
   cypress: cypress-io/cypress@3
   jest: blimmer/jest@1.1.1
 workflows:
-  build:
+  tests:
     jobs:
       - cypress/run:
           cypress-command: npx cypress run --browser chrome
