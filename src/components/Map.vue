@@ -1,32 +1,14 @@
 <template>
-  <l-map
-    data-cy="map"
-    ref="map"
-    style="height: 400px; width: 100%"
-    :zoom="3"
-    :bounds="bounds"
-  >
-    <l-tile-layer :url="url"></l-tile-layer>
-    <l-geo-json
-      ref="geojson"
-      :geojson="geojson"
-      :options="options"
-      :options-style="styleFunction"
-    />
-  </l-map>
+  <div id="map" style="height: 400px; width: 100%">
+  </div>
 </template>
 
 <script>
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { LMap, LTileLayer, LGeoJson } from "@vue-leaflet/vue-leaflet";
 
 export default {
-  components: {
-    LMap,
-    LTileLayer,
-    LGeoJson
-  },
+  components: {},
   data() {
     return {
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -40,15 +22,25 @@ export default {
   props: ["geojson"],
   methods: {},
   mounted() {
-    this.$nextTick(() => {
-      this.bounds = this.$refs.geojson.mapObject.getBounds();
-    });
+    let map = L.map('map').setView([48.853, 2.348], 13);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    let geojson = L.geoJSON(this.geojson, this.options).addTo(map);
+    let bounds = geojson.getBounds()
+    if (bounds.isValid()) {
+      map.fitBounds(bounds);
+    }
+    
   },
   computed: {
     options() {
       return {
         pointToLayer: this.pointToLayer,
-        onEachFeature: this.onEachFeatureFunction
+        onEachFeature: this.onEachFeatureFunction,
+        style: this.styleFunction,
       };
     },
     pointToLayer() {
