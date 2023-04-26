@@ -13,5 +13,4 @@ workflows:
           cypress-command: npx cypress run --browser chrome
           install-browsers: true
           name: e2e tests (cypress)
-      - jest/test:
-        name: unit tests (jest)
+      - jest/test
