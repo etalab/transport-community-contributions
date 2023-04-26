@@ -7,17 +7,8 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      'node-fetch': 'isomorphic-fetch',
-      vue: '@vue/compat'
+      'node-fetch': 'isomorphic-fetch'
     },
   },
-    plugins: [vue({
-    template: {
-      compilerOptions: {
-        compatConfig: {
-          MODE: 2
-        }
-      }
-    }
-  })],
+    plugins: [vue()],
 });
