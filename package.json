@@ -19,8 +19,7 @@
     "leaflet": "^1.9.3",
     "papaparse": "^5.4.1",
     "vue": "^3.2.47",
-    "@vue/compat": "^3.2.47",
-    "@vue-leaflet/vue-leaflet": "^0.9.0"
+    "@vue/compat": "^3.2.47"
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",
