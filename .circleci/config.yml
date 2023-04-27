@@ -6,9 +6,24 @@ orbs:
   # to lock the version and prevent unexpected CI changes
   cypress: cypress-io/cypress@3
   jest: blimmer/jest@1.1.1
+
+jobs:
+  check-node-version:
+    docker:
+      - image: cimg/base:2021.04
+    steps:
+      - checkout
+      - run: >
+          if [ "$(grep -oP '(?<=nodejs\s).*' .tool-versions)" = "$(cat .node-version)" ]; then 
+            exit 0 
+          else 
+            exit 1 
+          fi
+
 workflows:
   tests:
     jobs:
+      - check-node-version
       - cypress/run:
           cypress-command: npx cypress run --browser chrome
           install-browsers: true
