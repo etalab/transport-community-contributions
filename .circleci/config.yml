@@ -13,7 +13,7 @@ jobs:
       - image: cimg/base:2021.04
     steps:
       - checkout
-      - run: |
+      - run:|
         if [ "$(grep -oP '(?<=nodejs\s).*' .tool-versions)" = "$(cat .node-version)" ]; then 
                   echo "nodejs versions in .tool-versions and .node-version match"
         else 
