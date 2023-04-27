@@ -9,6 +9,9 @@ orbs:
 workflows:
   tests:
     jobs:
+      - check_node_version:
+          steps:
+            - run if [ "$(grep -oP '(?<=nodejs\s).*' .tool-versions)" = "$(cat .node-version)" ]; then echo 1; else echo 0; fi
       - cypress/run:
           cypress-command: npx cypress run --browser chrome
           install-browsers: true
