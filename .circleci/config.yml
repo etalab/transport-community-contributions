@@ -13,15 +13,14 @@ jobs:
       - image: cimg/base:2021.04
     steps:
       - checkout
-      - run:|
-        if [ "$(grep -oP '(?<=nodejs\s).*' .tool-versions)" = "$(cat .node-version)" ]; then 
-                  echo "nodejs versions in .tool-versions and .node-version match"
-        else 
-          echo "nodejs versions in .tool-versions and .node-version are different"
-          exit 1
-        fi
+      - run: >
+          if [ "$(grep -oP '(?<=nodejs\s).*' .tool-versions)" = "$(cat .node-version)" ]; then 
+            exit 0 
+          else 
+            exit 1 
+          fi
 
-  workflows:
+workflows:
   tests:
     jobs:
       - check-node-version
