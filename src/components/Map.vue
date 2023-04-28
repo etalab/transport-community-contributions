@@ -1,5 +1,5 @@
 <template>
-  <div id="map" style="height: 400px; width: 100%">
+  <div id="map" data-cy="map" style="height: 400px; width: 100%">
   </div>
 </template>
 
