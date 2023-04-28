@@ -127,9 +127,9 @@ export async function createAnonymousPR({
         content: base64data,
         sha: file_head_sha,
         "committer.name": botUserName,
-        "committer.email": "the-nice-bot@gmail.com",
+        "committer.email": "tech@transport.beta.gouv.fr",
         "author.name": botUserName,
-        "author.email": "the-nice-bot@gmail.com"
+        "author.email": "tech@transport.beta.gouv.fr"
     });
     console.log(
         `Create a commit in the new branch, modifying ${filePath} with the provided content`
