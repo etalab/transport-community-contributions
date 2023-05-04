@@ -102,7 +102,7 @@ export default {
       // the PR url is added to the message
       this.formData.message = `${this.formData.message} \n\n ${pr_url}`
 
-      if (import.meta.env.NODE_ENV === 'production') {
+      if (import.meta.env.PROD) {
         // send form to netlify only in production
         fetch(location.href, {
           method: 'POST',
