@@ -20,7 +20,7 @@
       <div class="pt-24">
         <p>
           La Base Nationale des Lieux de Covoiturage (BNLC) est hébergée
-          <a :href="`https://github.com/${githubPath}`">sur github</a>.
+          <a :href="`https://github.com/${githubPath}`">sur GitHub</a>.
         </p>
         <p>
           Elle est référencée sur
@@ -75,7 +75,7 @@
                 Laissez la colonne <strong>id_lieu</strong> vide, elle sera
                 remplie automatiquement
               </li>
-              <li>Le format attendu est en csv</li>
+              <li>Le format attendu est en CSV</li>
             </ul>
           </li>
           <li>
@@ -130,7 +130,7 @@
               >
                 🗺️ Voir la carte
               </div>
-              <Map v-if="showMap" :geojson="geojson"></Map>
+              <MapView v-if="showMap" :geojson="geojson"></MapView>
             </span>
             <span v-else-if="validFile === false">
               <span style="color: red">❌</span> Le fichier n'est pas valide
@@ -168,6 +168,9 @@
                 </div>
               </div>
             </span>
+            <span v-else-if="validationError === true">
+              <span style="color: red">Une erreur est survenue lors de la validation avec schema.data.gouv.fr</span>
+            </span>
             <span v-else>
               Validation du fichier par schema.data.gouv.fr
               <div class="lds-ring">
@@ -200,14 +203,14 @@
 import DiffMatchPatch from "diff-match-patch";
 import PR from "./components/PR.vue";
 import FileReader from "./components/FileReader.vue";
-import Map from "./components/Map.vue";
+import MapView from "./components/MapView.vue";
 
 export default {
   name: "App",
   components: {
     PR,
     FileReader,
-    Map
+    MapView
   },
   data() {
     return {
@@ -218,6 +221,7 @@ export default {
       newFile: "",
       prUrl: "",
       validFile: undefined,
+      validationError: undefined,
       fileAvailable: undefined,
       geojson: {},
       showMap: false,
@@ -247,6 +251,7 @@ export default {
       this.newFile = "";
       this.prUrl = "";
       this.validFile = undefined;
+      this.validationError = undefined;
       this.showMap = false;
     },
     handleNewFile(newFileContent) {
@@ -274,17 +279,24 @@ export default {
       });
       formData.append("file", file);
 
-      fetch(`${import.meta.env.VITE_VALIDATA_API}/validate`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json"
-        },
-        body: formData
-      })
+      try {
+        fetch(`${import.meta.env.VITE_VALIDATA_API}/validate`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json"
+          },
+          body: formData
+        })
         .then(data => data.json())
         .then(res => {
           this.validFile = res.report.valid;
+        })
+        .catch(() => {
+          this.validationError = true;
         });
+      } catch(error) {
+        this.validationError = true;
+      }
     },
     keepOnlyDiffContext(diff) {
       let diffIndex = diff.reduce((acc, d, i) => {
