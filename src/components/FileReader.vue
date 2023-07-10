@@ -3,7 +3,7 @@
     <label class="text-reader">
       <input data-cy="file-input" type="file" @change="loadTextFromFile" />
     </label>
-    <div v-if="errorMsg" class="pt-24" data-cy="show-file-processing-errors">
+    <div v-if="errorMsg" class="pt-24 error" data-cy="show-file-processing-errors">
       Erreur : {{ errorMsg }}
     </div>
   </div>
@@ -28,12 +28,15 @@ export default {
     async loadTextFromFile(ev) {
       const file = ev.target.files[0];
       let encoding = await this.getFileEncoding(file);
-      console.log("encoding détecté :", encoding);
 
       const reader = new FileReader();
 
-      // console.log("file:", file);
       reader.onload = () => {
+        if (encoding != 'UTF-8') {
+          this.errorMsg = "L'encodage du fichier n'est pas correct. Veuillez utiliser LibreOffice Calc avec l'encodage UTF-8.";
+          this.$emit("load", undefined);
+          return;
+        }
         this.errorMsg = "";
         let p = papa.parse(reader.result);
         try {
@@ -51,7 +54,7 @@ export default {
           this.$emit("load", content);
           this.$emit("geojson", geojson);
         } catch (error) {
-          this.errorMsg = error;
+          this.errorMsg = "Impossible de lire le fichier envoyé. Veuillez utiliser LibreOffice Calc avec l'encodage UTF-8.";
           this.$emit("load", undefined);
         }
       };
@@ -60,12 +63,14 @@ export default {
     getFileEncoding(file) {
       return new Promise(resolve => {
         const reader = new FileReader();
-        let encoding;
 
         reader.onload = () => {
-          let encoding_result = jschardet.detect(reader.result);
-          encoding = encoding_result.encoding;
-          resolve(encoding);
+          try {
+            resolve(jschardet.detect(reader.result).encoding);
+          } catch (error) {
+            this.errorMsg = "Impossible de lire le fichier envoyé. Veuillez utiliser LibreOffice Calc avec l'encodage UTF-8.";
+            this.$emit("load", undefined);
+          }
         };
         reader.readAsBinaryString(file);
       });
@@ -77,5 +82,8 @@ export default {
 <style lang="scss" scoped>
 .text-reader {
   max-width: 250px;
+}
+.error {
+  color: red;
 }
 </style>

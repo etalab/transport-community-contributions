@@ -98,7 +98,7 @@
               Aucune modification de contenu n'a été détectée avec la base
               actuelle.
             </div>
-            <div class="mt-24 panel overflow-auto">
+            <div v-if="diff.length" class="mt-24 panel overflow-auto">
               <span
                 v-for="(d, i) in diff"
                 v-bind:key="`diff-${i}`"
@@ -148,7 +148,7 @@
                     id_lieu remplie)
                   </li>
                   <li>
-                    et validez le sur
+                    et validez-le sur
                     <a
                       href="https://validata.fr/table-schema?schema_url=https://schema.data.gouv.fr/schemas/etalab/schema-lieux-covoiturage/latest/schema.json"
                       target="_blank"
