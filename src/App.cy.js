@@ -42,7 +42,7 @@ describe('invalid file upload', () => {
       body: "",
     })
     cy.get('[data-cy="file-input"]').selectFile('cypress/fixtures/invalid-insee-code.csv');
-    cy.get('[data-cy="show-file-processing-errors"]').contains('pas un code insee valide')
+    cy.get('[data-cy="show-file-processing-errors"]').contains('pas un code INSEE valide')
     cy.get('[data-cy="request-modification-form"]').should('not.exist')
     cy.get('[data-cy="submit-button"]').should('not.exist')
   })

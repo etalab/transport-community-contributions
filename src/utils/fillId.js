@@ -8,10 +8,10 @@ export function extractCountFromId(id) {
 
 export function createIdFromCount(insee, count) {
     if (insee.length !== inseeCodeSize) {
-        throw `${insee} n'est pas un code insee valide !`
+        throw `Le code INSEE \`${insee}\` dans votre fichier n'est pas un code INSEE valide.`
     }
     if (count > 999) {
-        throw `Il y a plus que 999 aires pour le code insee ${insee}, ce qui n'est pas autorisé !`
+        throw `Il y a plus que 999 aires pour le code INSEE ${insee}, ce qui n'est pas autorisé.`
     }
     return `${insee}-C-${count.toString().padStart(3, '0')}`
 }
@@ -31,7 +31,7 @@ export function fillCovoiturageIds(data) {
                 } else {
                     // the row is not empty, but the insee code is missing
                     // that's an error
-                    throw `Code insee manquant ligne ${index + 1}.`
+                    throw `Code INSEE manquant ligne ${index + 1}.`
                 }
             }
             const rowId = row[IdColumnIndex]

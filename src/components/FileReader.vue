@@ -54,7 +54,7 @@ export default {
           this.$emit("load", content);
           this.$emit("geojson", geojson);
         } catch (error) {
-          this.errorMsg = "Impossible de lire le fichier envoyé. Veuillez utiliser LibreOffice Calc avec l'encodage UTF-8.";
+          this.errorMsg = error;
           this.$emit("load", undefined);
         }
       };
