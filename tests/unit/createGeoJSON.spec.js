@@ -1,7 +1,7 @@
 import { createGeoJSON } from '../../src/utils/createGeoJSON.js'
 
 const data = [
-    ['id_lieu', 'insee', 'nom_lieu', 'Xlong', 'Ylat'],
+    ['id_local', 'insee', 'nom_lieu', 'Xlong', 'Ylat'],
     ['75013-C-001', '75013', 'aire1', '2.5', '48'],
     ['', '75013', 'aire2', '2.51', '48.1'],
     [''],

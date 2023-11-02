@@ -1,4 +1,4 @@
-"id_lieu","nom_lieu","ad_lieu","com_lieu","insee","type","date_maj","ouvert","source","Xlong","Ylat","nbre_pl","nbre_pmr","duree","horaires","proprio","lumiere","comm"
-"01024-C-001","Mairie d'Attignat","Place De La Fontaine- Anciens Combattants","ATTIGNAT","01024","Parking","2019-08-29","true","200071751","5.158352778","46.28957222","5","","","","","",""
+"nom_lieu","ad_lieu","com_lieu","insee","type","date_maj","ouvert","source","Xlong","Ylat","nbre_pl","nbre_pmr","duree","horaires","proprio","lumiere","comm"
+"Mairie d'Attignat","Place De La Fontaine- Anciens Combattants","ATTIGNAT","01024","Parking","2019-08-29","true","200071751","5.158352778","46.28957222","5","","","","","",""
 "xxx"
 
