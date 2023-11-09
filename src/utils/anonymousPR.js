@@ -63,7 +63,7 @@ export async function createAnonymousPR({
             owner: botUserName,
             repo: repoName,
             pull_number: pr.data.number,
-            merge_method: "merge"
+            merge_method: "squash"
         });
 
         console.log("PR has been merged");
@@ -99,7 +99,6 @@ export async function createAnonymousPR({
             throw(`PR creation has failed. Aborting.`)
         }
     }
-
     
     console.log(`Creating a branch in ${botUserName}/${repoName}`);
     // branch_name is unique, as it includes the number of milliseconds since January 1, 1970
@@ -127,9 +126,9 @@ export async function createAnonymousPR({
         content: base64data,
         sha: file_head_sha,
         "committer.name": botUserName,
-        "committer.email": "tech@transport.beta.gouv.fr",
+        "committer.email": "tech@transport.data.gouv.fr",
         "author.name": botUserName,
-        "author.email": "tech@transport.beta.gouv.fr"
+        "author.email": "tech@transport.data.gouv.fr"
     });
     console.log(
         `Create a commit in the new branch, modifying ${filePath} with the provided content`
@@ -145,7 +144,7 @@ export async function createAnonymousPR({
         title: "proposition de contribution",
         head: `${botUserName}:${branch_name}`,
         base: upstreamTargetBranch,
-        maintainer_can_modify: false
+        maintainer_can_modify: true
     });
 
     // leave the user description as a comment in the PR
@@ -156,7 +155,7 @@ export async function createAnonymousPR({
         body: prDescription,
     });
 
-    console.log(`PR number is ${pr_upstream.data.number} !`);
+    console.log(`PR number is ${pr_upstream.data.number}!`);
     console.log(`✌️‍‍`);
     return pr_upstream
 }
