@@ -37,7 +37,21 @@
         </p>
       </div>
 
-      <div>
+      <div v-if="fileAvailable === undefined">
+        <div class="lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        Chargement...
+      </div>
+      <div v-else-if="!fileAvailable">
+        <span class="error"
+          >⚠️ Le service de contribution est temporairement indisponible.</span
+        >
+      </div>
+      <div v-else>
         <p>
           Toute personne peut proposer d'y apporter des modifications simplement
           en suivant les étapes suivantes :
@@ -46,7 +60,7 @@
           <div class="pt-24">
             <li>
               Téléchargez le
-              <a :href="downloadUrl" download="bnlc.csv">fichier actuel de la BNLC</a>
+              <a :href="downloadUrl" download="bnlc-.csv">fichier actuel de la BNLC</a>
             </li>
           </div>
           <li>
@@ -197,13 +211,14 @@ export default {
   data() {
     return {
       newline: "\r\n",
-      downloadUrl: "https://raw.githubusercontent.com/etalab/transport-base-nationale-covoiturage/main/bnlc-.csv",
+      downloadUrl: "",
       diff: "",
       file: "",
       newFile: "",
       prUrl: "",
       validFile: undefined,
       validationError: undefined,
+      fileAvailable: undefined,
       geojson: {},
       showMap: false,
       filledFileUrl: ""
@@ -313,6 +328,30 @@ export default {
       // console.log("filteredDiffs:", filteredDiffs);
       return filteredDiffs;
     }
+  },
+  mounted() {
+    fetch(
+      `https://raw.githubusercontent.com/${this.githubPathWithBranch}/bnlc-.csv`,
+      {
+        cache: "no-store"
+      }
+    )
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("file not fetched properly");
+        }
+        this.fileAvailable = true;
+        return response.text();
+      })
+      .then(data => {
+        this.file = data;
+        let blob = new Blob([data], { type: "text/csv" });
+        this.downloadUrl = window.URL.createObjectURL(blob);
+      })
+      .catch(error => {
+        console.error("La base n'est pas disponible", error);
+        this.fileAvailable = false;
+      });
   }
 };
 </script>
