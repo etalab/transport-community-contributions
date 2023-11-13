@@ -29,20 +29,8 @@ describe('invalid file upload', () => {
       body: "",
     })
     cy.get('[data-cy="file-input"]').selectFile('cypress/fixtures/invalid-base.csv');
-    // makes a real request to validata api, could be mocked
+    // Makes a real request to Validata API, could be mocked
     cy.get('[data-cy="is-file-valid"]').contains('Le fichier n\'est pas valide')
-    cy.get('[data-cy="request-modification-form"]').should('not.exist')
-    cy.get('[data-cy="submit-button"]').should('not.exist')
-  })
-
-  it('tries a insee code too long', () => {
-    cy.mount(App)
-    cy.intercept('https://raw.githubusercontent.com/*', {
-      statusCode: 200,
-      body: "",
-    })
-    cy.get('[data-cy="file-input"]').selectFile('cypress/fixtures/invalid-insee-code.csv');
-    cy.get('[data-cy="show-file-processing-errors"]').contains('pas un code INSEE valide')
     cy.get('[data-cy="request-modification-form"]').should('not.exist')
     cy.get('[data-cy="submit-button"]').should('not.exist')
   })

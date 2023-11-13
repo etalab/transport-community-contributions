@@ -71,7 +71,7 @@
             ></file-reader>
             <br />
           </li>
-          <div v-if="newFile" class="pt-24">
+          <div v-if="newFile" class="pt-24" data-cy="is-file-valid">
             <div v-if="diff.length">
               Voici les modifications que vous souhaitez apporter à la base.<br />
               Les ajouts apparaissent en <span class="diff-add">vert</span>, les
