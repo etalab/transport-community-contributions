@@ -60,7 +60,7 @@
           <div class="pt-24">
             <li>
               Téléchargez le
-              <a :href="downloadUrl" download="bnlc-.csv">fichier actuel de la BNLC</a>
+              <a :href="downloadUrl" download="bnlc.csv">fichier actuel de la BNLC</a>
             </li>
           </div>
           <li>
