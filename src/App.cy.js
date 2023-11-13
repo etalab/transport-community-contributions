@@ -8,7 +8,7 @@ describe('valid file upload', () => {
   })
   it('upload a valid file', () => {
     cy.mount(App)
-    cy.get('[data-cy="file-input"]').selectFile('cypress/fixtures/valid-base-empty-lines.csv');
+    cy.get('[data-cy="file-input"]').selectFile('cypress/fixtures/valid.csv');
     // makes a real request to validata api, could be mocked
     cy.get('[data-cy="is-file-valid"]').contains('Le fichier est valide')
     cy.get('[data-cy="request-modification-form"]').contains('Soumettre la demande de modification')
@@ -30,7 +30,7 @@ describe('invalid file upload', () => {
 describe('test the map', () => {
   it('checks the map exists', () => {
     cy.mount(App)
-    cy.get('[data-cy="file-input"]').selectFile('cypress/fixtures/valid-base-empty-lines.csv');
+    cy.get('[data-cy="file-input"]').selectFile('cypress/fixtures/valid.csv');
     cy.get('[data-cy="show-the-map-link"]').contains('Voir la carte')
     cy.get('[data-cy="map"]').should('not.exist')
     cy.get('[data-cy="show-the-map-link"]').click()
