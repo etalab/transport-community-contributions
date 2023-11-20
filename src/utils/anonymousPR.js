@@ -63,7 +63,7 @@ export async function createAnonymousPR({
             owner: botUserName,
             repo: repoName,
             pull_number: pr.data.number,
-            merge_method: "squash"
+            merge_method: "merge"
         });
 
         console.log("PR has been merged");
