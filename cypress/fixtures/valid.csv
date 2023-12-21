@@ -1,2 +1,2 @@
-"id_lieu","id_local","nom_lieu","ad_lieu","com_lieu","insee","type","date_maj","ouvert","source","Xlong","Ylat","nbre_pl","nbre_pmr","duree","horaires","proprio","lumiere","comm"
-"01024-C-001","1","Mairie d'Attignat","Place De La Fontaine- Anciens Combattants","ATTIGNAT","01024","Parking","2019-08-29","true","200071751","5.158352778","46.28957222","5","","","","","","Près des bus"
+"id_local","nom_lieu","ad_lieu","com_lieu","insee","type","date_maj","ouvert","source","Xlong","Ylat","nbre_pl","nbre_pmr","duree","horaires","proprio","lumiere","comm"
+"1","Mairie d'Attignat","Place De La Fontaine- Anciens Combattants","ATTIGNAT","01024","Parking","2019-08-29","true","200071751","5.158352778","46.28957222","5","","","","","","Près des bus"
