@@ -1,6 +1,6 @@
 export function createGeoJSON(data) {
     const headers = data[0]
-    const idColumnIndex = headers.indexOf('id_lieu')
+    const idColumnIndex = headers.indexOf('id_local')
     const nameColumnIndex = headers.indexOf('nom_lieu')
     const lonColumnIndex = headers.indexOf('Xlong')
     const latColumnIndex = headers.indexOf('Ylat')

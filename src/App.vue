@@ -19,20 +19,21 @@
       </div>
       <div class="pt-24">
         <p>
-          La Base Nationale des Lieux de Covoiturage (BNLC) est hébergée
-          <a :href="`https://github.com/${githubPath}`">sur GitHub</a>.
-        </p>
-        <p>
-          Elle est référencée sur
+          La Base Nationale des Lieux de Covoiturage (BNLC) consolidée est hébergée sur
           <a
-            href="https://www.data.gouv.fr/fr/datasets/base-nationale-des-lieux-de-covoiturage"
-            >data.gouv.fr</a
-          >
-          et sur
+          href="https://www.data.gouv.fr/fr/datasets/base-nationale-des-lieux-de-covoiturage/"
+          >data.gouv.fr</a
+          > et référencée et sur
           <a
             href="https://transport.data.gouv.fr/datasets/base-nationale-des-lieux-de-covoiturage"
             >transport.data.gouv.fr</a
           >.
+        </p>
+        <p>
+            Elle est issue de la consolidation des jeux de données présents sur data.gouv.fr référencés dans <a :href="`https://github.com/${githubPath}`">le fichier datasets.csv</a>. Pour contribuer à la BNLC, il est possible de publier votre propre jeu de données sur data.gouv.fr et de demander sa consolidation dans la BNLC.
+        </p>
+        <p>
+              Il vous est aussi possible de modifier <a :href="`https://github.com/${githubPath}`">le fichier "contributif"</a> via cet outil "Contribuer", qui est automatiquement consolidé dans la BNLC.
         </p>
       </div>
 
@@ -58,12 +59,12 @@
         <ol>
           <div class="pt-24">
             <li>
-              Téléchargez la
-              <a :href="downloadUrl" download="bnlc-.csv">base actuelle</a>
+              Téléchargez le
+              <a :href="downloadUrl" download="bnlc.csv">fichier actuel de la BNLC</a>
             </li>
           </div>
           <li>
-            Apportez y les modifications souhaitées sur votre poste,
+            Apportez les modifications souhaitées sur votre poste,
             <a
               href="https://schema.data.gouv.fr/etalab/schema-lieux-covoiturage/latest/documentation.html"
               target="_blank"
@@ -71,10 +72,6 @@
             >.
             <br />
             <ul>
-              <li>
-                Laissez la colonne <strong>id_lieu</strong> vide, elle sera
-                remplie automatiquement
-              </li>
               <li>Le format attendu est en CSV</li>
             </ul>
           </li>
@@ -144,8 +141,7 @@
                     <a :href="filledFileUrl" download="bnlc-for-validata.csv"
                       >ce fichier</a
                     >
-                    (identique à celui que vous avez chargé, avec la colonne
-                    id_lieu remplie)
+                    (identique à celui que vous avez chargé)
                   </li>
                   <li>
                     et validez-le sur
@@ -161,9 +157,9 @@
                   En cas de besoin, n'hésitez pas à contacter l'équipe de
                   transport.data.gouv.fr :
                   <a
-                    href="mailto:contact@transport.beta.gouv.fr"
+                    href="mailto:contact@transport.data.gouv.fr"
                     target="_blank"
-                    >contact@transport.beta.gouv.fr</a
+                    >contact@transport.data.gouv.fr</a
                   >
                 </div>
               </div>

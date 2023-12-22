@@ -11,7 +11,6 @@
 
 <script>
 import papa from "papaparse";
-import { fillCovoiturageIds } from "@/utils/fillId.js";
 import { createGeoJSON } from "@/utils/createGeoJSON.js";
 import jschardet from "jschardet";
 
@@ -41,7 +40,6 @@ export default {
         let p = papa.parse(reader.result);
         try {
           const geojson = createGeoJSON(p.data);
-          p.data = fillCovoiturageIds(p.data);
           let content = papa.unparse(p, {
             quotes: true,
             newline: this.newline,
