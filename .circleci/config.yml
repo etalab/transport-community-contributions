@@ -6,7 +6,6 @@ orbs:
   # to lock the version and prevent unexpected CI changes
   cypress: cypress-io/cypress@3.2.1
   jest: blimmer/jest@1.1.1
-  browser-tools: circleci/browser-tools@1.4.8
 
 jobs:
   check-node-version:
@@ -20,19 +19,12 @@ jobs:
           else
             exit 1
           fi
-  end_to_end:
-    docker:
-      - image: cimg/node:20.4.0-browsers
-    steps:
-      - browser-tools/install-chrome
-      - browser-tools/install-chromedriver
-      - cypress/run:
-        name: End to end tests with Cypress
-        cypress-command: npx cypress run --browser chrome --component
 
 workflows:
   tests:
     jobs:
       - check-node-version
-      - end_to_end
+      - cypress/run:
+          cypress-command: npx cypress run --component
+          name: e2e tests (cypress)
       - jest/test
