@@ -17,6 +17,9 @@
           covoiturage
         </h1>
       </div>
+      <div class="notification error">
+        Depuis janvier 2024, pour contribuer à la BNLC, vous devez publier votre propre jeu de données sur data.gouv.fr et demander sa consolidation dans la BNLC. <a href="https://doc.transport.data.gouv.fr/producteurs/lieux-de-covoiturage/contribuer-a-la-base-nationale-des-lieux-de-covoiturage">Lire la documentation</a>.
+        </div>
       <div class="pt-24">
         <p>
           La Base Nationale des Lieux de Covoiturage (BNLC) consolidée est hébergée sur
@@ -30,7 +33,7 @@
           >.
         </p>
         <p>
-            Elle est issue de la consolidation des jeux de données présents sur data.gouv.fr référencés dans <a :href="`https://github.com/${githubPath}`">le fichier datasets.csv</a>. Pour contribuer à la BNLC, il est possible de publier votre propre jeu de données sur data.gouv.fr et de demander sa consolidation dans la BNLC.
+            Elle est issue de la consolidation des jeux de données présents sur data.gouv.fr référencés dans <a :href="`https://github.com/${githubPath}`">le fichier datasets.csv</a>.
         </p>
         <p>
               Il vous est aussi possible de modifier <a :href="`https://github.com/${githubPath}`">le fichier "contributif"</a> via cet outil "Contribuer", qui est automatiquement consolidé dans la BNLC.

@@ -25,7 +25,6 @@ workflows:
     jobs:
       - check-node-version
       - cypress/run:
-          cypress-command: npx cypress run --browser chrome --component
-          install-browsers: true
+          cypress-command: npx cypress run --component
           name: e2e tests (cypress)
       - jest/test
