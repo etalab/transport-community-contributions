@@ -6,6 +6,7 @@ orbs:
   # to lock the version and prevent unexpected CI changes
   cypress: cypress-io/cypress@3.2.1
   jest: blimmer/jest@1.1.1
+  browser-tools: circleci/browser-tools@1.4.8
 
 jobs:
   check-node-version:
@@ -24,8 +25,9 @@ workflows:
   tests:
     jobs:
       - check-node-version
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - cypress/run:
           cypress-command: npx cypress run --browser chrome --component
-          install-browsers: true
           name: e2e tests (cypress)
       - jest/test
