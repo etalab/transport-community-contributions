@@ -20,13 +20,19 @@ jobs:
           else
             exit 1
           fi
+  end_to_end:
+    docker:
+      - image: cimg/node:20.4.0-browsers
+    steps:
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
+      - cypress/run:
+        name: End to end tests with Cypress
+        cypress-command: npx cypress run --browser chrome --component
 
 workflows:
   tests:
     jobs:
       - check-node-version
-      - cypress/run:
-          cypress-command: npx cypress run --browser chrome --component
-          install-browsers: true
-          name: e2e tests (cypress)
+      - end_to_end
       - jest/test
