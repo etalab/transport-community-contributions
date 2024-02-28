@@ -360,7 +360,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "https://template.data.gouv.fr/template.css";
+@import "template.data.gouv.fr/dist/main.css";
 
 #app {
   background-color: var(--theme-background-grey);
