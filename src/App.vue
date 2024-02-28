@@ -18,7 +18,7 @@
         </h1>
       </div>
       <div class="notification error">
-        Depuis janvier 2024, pour contribuer à la BNLC, vous devez publier votre propre jeu de données sur data.gouv.fr et demander sa consolidation dans la BNLC. <a href="https://doc.transport.data.gouv.fr/producteurs/lieux-de-covoiturage/contribuer-a-la-base-nationale-des-lieux-de-covoiturage">Lire la documentation</a>
+        Depuis janvier 2024, pour contribuer à la BNLC, vous devez publier votre propre jeu de données sur data.gouv.fr et demander sa consolidation dans la BNLC. <a href="https://doc.transport.data.gouv.fr/producteurs/lieux-de-covoiturage/contribuer-a-la-base-nationale-des-lieux-de-covoiturage">Lire la documentation</a>.
         </div>
       <div class="pt-24">
         <p>
